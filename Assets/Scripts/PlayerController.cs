@@ -43,6 +43,16 @@ public class PlayerController : MonoBehaviour
     private float gravityScale;
     [SerializeField] private float jumpCutGravityMult = 3.5f;
 
+    [Header("Attack")]
+    [SerializeField] private float attackCoolDown = 1f;
+    [SerializeField] private float attackDamage = 1f;
+    private float attackTimer = 0f;
+    [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private Transform attackTransform;
+    [SerializeField] private float attackRange = 1.5f;
+    private RaycastHit2D[] targetsHit;
+    private bool triggerAttack = false;
+
     private Rigidbody2D rb;
 
     private void Awake (){
@@ -57,6 +67,21 @@ public class PlayerController : MonoBehaviour
 
     private void Update(){
             
+            if (triggerAttack && attackTimer > attackCoolDown){
+                triggerAttack = false;
+                // Debug.Log("Attack Triggered");
+                attackTimer = 0;
+                Attack();
+            }
+
+            // //temp
+            // if (attackTimer > attackCoolDown){
+            //     attackTransform.GetComponent<SpriteRenderer>().enabled = false;
+
+            // }
+
+            attackTimer += Time.deltaTime;
+
             // counts up when in the falling state
             if (!isJumping && !isJumpFalling && !isGrounded){
                 coyoteTimer += Time.deltaTime;
@@ -148,6 +173,15 @@ public class PlayerController : MonoBehaviour
         // }
 
         // float movement = isOnIce ? speedDif * moveSpeed * iceFriction : speedDif * moveSpeed;
+        // change to only flip if needed
+        // make sure to flip child as well
+        if (movementInput.x < 0f){
+            transform.localScale = new Vector3(-1,1,1);
+        }
+        else if (movementInput.x > 0){
+            // gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            transform.localScale = new Vector3(1,1,1);
+        }
         float movement = speedDif * acceleration;
         rb.AddForce(movement*Vector2.right, ForceMode2D.Force);
     }
@@ -167,6 +201,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Attack(){
+        // attackTransform.GetComponent<SpriteRenderer>().enabled = true;
+        targetsHit = Physics2D.CircleCastAll(attackTransform.position, attackRange, transform.right, 0f, enemyLayer);
+        // Debug.Log("Test");
+        for (int i = 0; i < targetsHit.Length; i++){
+            // Debug.Log(targetsHit[i].collider.gameObject);
+            IDamageable damageable = targetsHit[i].collider.gameObject.GetComponent<IDamageable>();
+
+            if (damageable != null){
+                damageable.Damage(attackDamage);
+            }
+        }
+    }
+
     // Handles the input for the movement of the player
     public void HandleMove(InputAction.CallbackContext context){
         movementInput = new Vector2(context.ReadValue<Vector2>().x, rb.velocity.y);
@@ -180,6 +228,12 @@ public class PlayerController : MonoBehaviour
         // if the jump button is released early
         if (context.canceled){
             triggerJumpCut = true;
+        }
+    }
+
+    public void HandleAttack(InputAction.CallbackContext context){
+        if (context.performed){
+            triggerAttack = true;
         }
     }
 
