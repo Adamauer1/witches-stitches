@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
             
             if (triggerAttack && attackTimer > attackCoolDown){
                 triggerAttack = false;
-                // Debug.Log("Attack Triggered");
+                Debug.Log("Attack Triggered");
                 attackTimer = 0;
                 Attack();
             }

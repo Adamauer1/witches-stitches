@@ -5,11 +5,12 @@ using UnityEngine;
 public class PlatformCollapse : MonoBehaviour
 {
 
-    [SerializeField] private float collapseDelay = 0.5f;  
-    private float collapseDelayTimer = 0f;
-    private float respawnTimer = 0f;       
-    private bool playerTriggered = false;
-    private bool isCollapsed = false;
+    [SerializeField] private float collapseDelay = 0.5f;
+    [SerializeField] private float respawnDelay = 1.5f;  
+    // private float collapseDelayTimer = 0f;
+    // private float respawnTimer = 0f;       
+    // private bool playerTriggered = false;
+    // private bool isCollapsed = false;
     private Collider2D platformCollider;
     private SpriteRenderer platformRenderer;
     private Collider2D platformTrigger;
@@ -21,34 +22,34 @@ public class PlatformCollapse : MonoBehaviour
         platformTrigger = GetComponent<BoxCollider2D>();
     }
 
-    void Update(){
-        if (playerTriggered){
-            collapseDelayTimer += Time.deltaTime;
-            if (collapseDelayTimer >= collapseDelay){
-                CollapsePlatform();
-            }
-        }
-        if (isCollapsed){
-            respawnTimer += Time.deltaTime;
-            if (respawnTimer >= collapseDelay){
-                RespawnPlatform();
-            }
-        }
-    }
+    // void Update(){
+    //     if (playerTriggered){
+    //         collapseDelayTimer += Time.deltaTime;
+    //         if (collapseDelayTimer >= collapseDelay){
+    //             CollapsePlatform();
+    //         }
+    //     }
+    //     if (isCollapsed){
+    //         respawnTimer += Time.deltaTime;
+    //         if (respawnTimer >= collapseDelay){
+    //             RespawnPlatform();
+    //         }
+    //     }
+    // }
 
-    private void CollapsePlatform(){
-        isCollapsed = true;
-        PlatformEnabled(false);
-        collapseDelayTimer = 0;
-        playerTriggered= false;
+    // private void CollapsePlatform(){
+    //     isCollapsed = true;
+    //     PlatformEnabled(false);
+    //     collapseDelayTimer = 0;
+    //     playerTriggered= false;
 
-    }
+    // }
 
-    private void RespawnPlatform(){
-        isCollapsed = false;
-        respawnTimer = 0;
-        PlatformEnabled(true);
-    }
+    // private void RespawnPlatform(){
+    //     isCollapsed = false;
+    //     respawnTimer = 0;
+    //     PlatformEnabled(true);
+    // }
 
     private void PlatformEnabled(bool enabled){
         platformCollider.enabled = enabled;
@@ -60,7 +61,19 @@ public class PlatformCollapse : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            playerTriggered = true;
+            // playerTriggered = true;
+            StartCoroutine(Collapse());
         }
+    }
+
+
+    private IEnumerator Collapse(){
+        yield return new WaitForSeconds(collapseDelay);
+
+        PlatformEnabled(false);
+
+        yield return new WaitForSeconds(respawnDelay);
+
+        PlatformEnabled(true);
     }
 }

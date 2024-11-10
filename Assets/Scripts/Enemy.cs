@@ -7,8 +7,9 @@ public class Enemy : MonoBehaviour
 {
     private Transform player;
     [SerializeField] private float shootingRange = 5f;
+    [SerializeField] private float chaseRange = 15f;
     [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private float fireRate = 1f;
+    [SerializeField] private float fireRate = 3f;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
     private float nextFireTime = 0f;
@@ -23,7 +24,10 @@ public class Enemy : MonoBehaviour
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        if (distanceToPlayer > shootingRange){
+        if (distanceToPlayer > chaseRange){
+
+        }
+        else if (distanceToPlayer > shootingRange && distanceToPlayer < chaseRange){
             MoveTowardsPlayer();
         }
         else {
