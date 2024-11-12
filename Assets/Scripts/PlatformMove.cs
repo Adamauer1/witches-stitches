@@ -6,6 +6,7 @@ public class PlatformMove : MonoBehaviour
 {
     [SerializeField] private Transform startTransform;
     [SerializeField] private Transform endTransform;
+    public BoxCollider2D collider;
     public float speed = 2f;
     private Vector3 target;
     private bool isMoving;
@@ -16,6 +17,7 @@ public class PlatformMove : MonoBehaviour
     }
 
     private void Update(){
+        AstarPath.active.UpdateGraphs (collider.bounds);
         if (isMoving){
             transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
             if (Vector3.Distance(transform.position, target) < 0.01f){

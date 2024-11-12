@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
+using UnityEngine.Animations;
 
 public class Enemy : MonoBehaviour
 {
@@ -13,6 +15,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
     private float nextFireTime = 0f;
+
+    public AIPath aIPath;
     private void Start(){
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
@@ -21,6 +25,13 @@ public class Enemy : MonoBehaviour
         if (player == null){
             return;
         }
+        //depending on default direction of the sprite
+        if (aIPath.desiredVelocity.x >= 0.01f){
+            transform.localScale = new Vector3(-1f, 1f, 1f);
+        }
+        else if (aIPath.desiredVelocity.x <= -0.01) {
+            transform.localScale = new Vector3(1f, 1f, 1f);
+        }
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
@@ -28,7 +39,7 @@ public class Enemy : MonoBehaviour
 
         }
         else if (distanceToPlayer > shootingRange && distanceToPlayer < chaseRange){
-            MoveTowardsPlayer();
+            // MoveTowardsPlayer();
         }
         else {
             Shoot();
