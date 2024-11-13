@@ -9,6 +9,10 @@ using UnityEngine.InputSystem.Controls;
 
 public class PlayerController : MonoBehaviour
 {
+
+    [Header("Input")]
+    private bool canInput = true;
+
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 9.5f;
     [SerializeField] private float iceFriction = 0.4f;
@@ -119,6 +123,7 @@ public class PlayerController : MonoBehaviour
 
         // Applys the jump action to the player
         Jump();
+
     }
 
     // Updates all of the players gravity depending on their current state
@@ -217,22 +222,26 @@ public class PlayerController : MonoBehaviour
 
     // Handles the input for the movement of the player
     public void HandleMove(InputAction.CallbackContext context){
-        movementInput = new Vector2(context.ReadValue<Vector2>().x, rb.velocity.y);
+        if (canInput){
+            movementInput = new Vector2(context.ReadValue<Vector2>().x, rb.velocity.y);
+        } else{
+            movementInput = new Vector2(0, rb.velocity.y);
+        }
     }
 
     // Handles the input for the jump of the player
     public void HandleJump(InputAction.CallbackContext context){
-        if (context.performed){
+        if (context.performed && canInput){
             triggerJump = true;
         }
         // if the jump button is released early
-        if (context.canceled){
+        if (context.canceled && canInput){
             triggerJumpCut = true;
         }
     }
 
     public void HandleAttack(InputAction.CallbackContext context){
-        if (context.performed){
+        if (context.performed && canInput){
             triggerAttack = true;
         }
     }
@@ -273,6 +282,10 @@ public class PlayerController : MonoBehaviour
             isOnIce = false;
             // iceFriction = 1f;
         }
+    }
+
+    public void SetCanInput(bool canInput){
+        this.canInput = canInput;
     }
 
 }

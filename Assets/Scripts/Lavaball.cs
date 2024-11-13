@@ -47,6 +47,5 @@ public class Lavaball : MonoBehaviour
             player.Damage(2);
 
         };
-        Destroy(gameObject);
     }
 }
