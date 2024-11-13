@@ -17,8 +17,8 @@ public class PlatformCollapse : MonoBehaviour
 
     void Awake()
     {
-        platformCollider = transform.parent.Find("Test").GetComponent<BoxCollider2D>();
-        platformRenderer = transform.parent.Find("Test").GetComponent<SpriteRenderer>();
+        platformCollider = transform.parent.Find("Platform").GetComponent<BoxCollider2D>();
+        platformRenderer = transform.parent.Find("Platform").GetComponent<SpriteRenderer>();
         platformTrigger = GetComponent<BoxCollider2D>();
     }
 
@@ -68,6 +68,7 @@ public class PlatformCollapse : MonoBehaviour
 
 
     private IEnumerator Collapse(){
+        Debug.Log("Collapse");
         yield return new WaitForSeconds(collapseDelay);
 
         PlatformEnabled(false);

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Lavaball : MonoBehaviour
@@ -38,5 +39,14 @@ public class Lavaball : MonoBehaviour
         yield return new WaitForSeconds(1f);
         target = target == startTransform.position ? endTransform.position : startTransform.position; 
         isMoving = true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider){
+        if(collider.gameObject.CompareTag("Player")){
+            PlayerHealth player = collider.gameObject.GetComponent<PlayerHealth>();
+            player.Damage(2);
+
+        };
+        Destroy(gameObject);
     }
 }

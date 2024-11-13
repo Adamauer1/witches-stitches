@@ -70,7 +70,7 @@ public class Enemy : MonoBehaviour
             nextFireTime = Time.time + fireRate;
             GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
             Vector2 direction = (player.position - firePoint.position).normalized;
-            projectile.GetComponent<Rigidbody2D>().velocity = direction * moveSpeed;
+            projectile.GetComponent<Rigidbody2D>().velocity = direction * moveSpeed * 3;
         }
     }
 }
