@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float fireRate = 3f;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
+    [SerializeField] private LayerMask contactLayer;
     private float nextFireTime = 0f;
 
     public AIPath aIPath;
@@ -36,14 +37,26 @@ public class Enemy : MonoBehaviour
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
         if (distanceToPlayer > chaseRange){
-
+            aIPath.enabled = false;
         }
         else if (distanceToPlayer > shootingRange && distanceToPlayer < chaseRange){
             // MoveTowardsPlayer();
+            aIPath.enabled = true;
         }
-        else {
+        else if (distanceToPlayer < shootingRange && CanSeePlayer()) {
+            aIPath.enabled = false;
             Shoot();
         }
+    }
+
+    private bool CanSeePlayer(){
+        Vector2 directionToPlayer = (player.position - transform.position).normalized;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer, shootingRange, contactLayer);
+        if (hit.collider != null && hit.collider.CompareTag("Player")){
+            // Debug.Log(hit);
+            return true;
+        }
+        return false;
     }
 
     private void MoveTowardsPlayer(){

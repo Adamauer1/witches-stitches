@@ -17,7 +17,7 @@ public class PlatformMove : MonoBehaviour
     }
 
     private void Update(){
-        AstarPath.active.UpdateGraphs (collider.bounds);
+        // AstarPath.active.UpdateGraphs (collider.bounds);
         if (isMoving){
             transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
             if (Vector3.Distance(transform.position, target) < 0.01f){
@@ -25,6 +25,10 @@ public class PlatformMove : MonoBehaviour
                 // target = target == startTransform.position ? endTransform.position : startTransform.position; 
             }
         }
+    }
+
+    private void FixedUpdate(){
+        AstarPath.active.UpdateGraphs (collider.bounds);
     }
 
     private IEnumerator FlipDirection(){
