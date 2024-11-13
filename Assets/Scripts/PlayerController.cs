@@ -19,12 +19,12 @@ public class PlayerController : MonoBehaviour
     private Vector2 movementInput;
 
     [Header("Ground Check")]
-    [SerializeField] private Collider2D feet;
+    // [SerializeField] private Collider2D feet;
     private bool isOnIce = false;
-    public Transform groundCheckPoint;
+    [SerializeField] private Transform groundCheckPoint;
     [SerializeField] private Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
-    public LayerMask groundLayer;
-    public bool isGrounded;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private bool isGrounded;
 
 
     [Header("Jump")]
@@ -35,8 +35,8 @@ public class PlayerController : MonoBehaviour
     private float jumpForce;
     [SerializeField] private float jumpBuffer = 0.1f;
     private float jumpBufferCounter = 0;
-    public bool isJumping = false;
-    public bool isJumpFalling = false;
+    [SerializeField] private bool isJumping = false;
+    [SerializeField] private bool isJumpFalling = false;
     private float coyoteTimer = 0;
     [SerializeField] private float coyoteTime = 0.1f;
     
@@ -54,8 +54,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private Transform attackTransform;
     [SerializeField] private float attackRange = 1.5f;
-    private RaycastHit2D[] targetsHit;
+    // private RaycastHit2D[] targetsHit;
+    private Collider2D[] targetsHit;
     private bool triggerAttack = false;
+    private Animator animator;
 
     private Rigidbody2D rb;
 
@@ -67,6 +69,7 @@ public class PlayerController : MonoBehaviour
         jumpForce = Mathf.Abs(gravityStrength) * jumpTimeToApex;
         
         gravityScale = gravityStrength / Physics2D.gravity.y;
+        animator = GetComponent<Animator>();
     }
 
     private void Update(){
@@ -76,13 +79,8 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Attack Triggered");
                 attackTimer = 0;
                 Attack();
+                animator.SetTrigger("attack");
             }
-
-            // //temp
-            // if (attackTimer > attackCoolDown){
-            //     attackTransform.GetComponent<SpriteRenderer>().enabled = false;
-
-            // }
 
             attackTimer += Time.deltaTime;
 
@@ -208,15 +206,16 @@ public class PlayerController : MonoBehaviour
 
     private void Attack(){
         // attackTransform.GetComponent<SpriteRenderer>().enabled = true;
-        targetsHit = Physics2D.CircleCastAll(attackTransform.position, attackRange, transform.right, 0f, enemyLayer);
+        // targetsHit = Physics2D.CircleCastAll(attackTransform.position, attackRange, transform.right, 0f, enemyLayer);
+        //targetsHit = Physics2D.BoxCastAll(attackTransform.position, new Vector2(1.8f, 2), transform.right, 0f, enemyLayer);
+        targetsHit = Physics2D.OverlapBoxAll(attackTransform.position, new Vector2(1.8f, 3), 0, enemyLayer);
         // Debug.Log("Test");
         for (int i = 0; i < targetsHit.Length; i++){
             // Debug.Log(targetsHit[i].collider.gameObject);
-            IDamageable damageable = targetsHit[i].collider.gameObject.GetComponent<IDamageable>();
+            //IDamageable damageable = targetsHit[i].collider.gameObject.GetComponent<IDamageable>();
+            IDamageable damageable = targetsHit[i].gameObject.GetComponent<IDamageable>();
 
-            if (damageable != null){
-                damageable.Damage(attackDamage);
-            }
+            damageable?.Damage(attackDamage);
         }
     }
 
@@ -286,6 +285,12 @@ public class PlayerController : MonoBehaviour
 
     public void SetCanInput(bool canInput){
         this.canInput = canInput;
+    }
+
+
+    private void OnDrawGizmos(){
+        //Gizmos.DrawLine(attackTransform, origin + direction * distance);
+        Gizmos.DrawWireCube(attackTransform.position, new Vector3(1.8f,3,0));
     }
 
 }

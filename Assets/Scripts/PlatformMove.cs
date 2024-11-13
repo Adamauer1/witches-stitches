@@ -6,7 +6,7 @@ public class PlatformMove : MonoBehaviour
 {
     [SerializeField] private Transform startTransform;
     [SerializeField] private Transform endTransform;
-    public BoxCollider2D collider;
+    public BoxCollider2D boxCollider;
     public float speed = 2f;
     private Vector3 target;
     private bool isMoving;
@@ -22,13 +22,12 @@ public class PlatformMove : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
             if (Vector3.Distance(transform.position, target) < 0.01f){
                 StartCoroutine(FlipDirection());
-                // target = target == startTransform.position ? endTransform.position : startTransform.position; 
             }
         }
     }
 
     private void FixedUpdate(){
-        AstarPath.active.UpdateGraphs (collider.bounds);
+        AstarPath.active.UpdateGraphs (boxCollider.bounds);
     }
 
     private IEnumerator FlipDirection(){

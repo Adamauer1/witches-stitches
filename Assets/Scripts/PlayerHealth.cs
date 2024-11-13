@@ -5,10 +5,10 @@ using TMPro;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    [SerializeField] float maxHealth = 5f;
-    [SerializeField] TextMeshProUGUI healthText;
-    [SerializeField] Transform spawnPoint;
-    [SerializeField] float iFrames = 0.3f;
+    [SerializeField] private float maxHealth = 5f;
+    [SerializeField] private TextMeshProUGUI healthText;
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private float iFrames = 0.3f;
     private bool canTakeDamage = true;
     private PlayerController playerController;
     private float currentHealth;
@@ -22,30 +22,26 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     }
 
     public void Damage(float damage){
-        currentHealth -= damage;
-        // healthText.text = currentHealth.ToString();
-        if (currentHealth <= 0){
-            currentHealth = 0;
-            healthText.text = currentHealth.ToString();
-            StartCoroutine(Die());
-        }
-        else{
-            healthText.text = currentHealth.ToString();
-            StartCoroutine(RunIFrame());
+        if (canTakeDamage){
+            currentHealth -= damage;
+            if (currentHealth <= 0){
+                currentHealth = 0;
+                healthText.text = currentHealth.ToString();
+                StartCoroutine(Die());
+            }
+            else{
+                healthText.text = currentHealth.ToString();
+                StartCoroutine(RunIFrame());
+            }
         }
         
     }
 
     public IEnumerator Die(){
-        // Destroy(gameObject);
         playerController.SetCanInput(false);
         yield return new WaitForSeconds(0.5f);
-        // currentHealth = maxHealth;
-        // healthText.text = currentHealth.ToString();
-        // transform.position = spawnPoint.position;
         playerController.SetCanInput(true);
         GameManager.instance.ResetGame();
-        //restart level
     }
 
     public IEnumerator RunIFrame(){

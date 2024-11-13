@@ -59,18 +59,19 @@ public class Enemy : MonoBehaviour
         return false;
     }
 
-    private void MoveTowardsPlayer(){
-        // Vector2 direction = (player.position - transform.position).normalized;
-        transform.position = Vector2.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
+    // manual movement to player
+    // private void MoveTowardsPlayer(){
+    //     // Vector2 direction = (player.position - transform.position).normalized;
+    //     transform.position = Vector2.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
 
-    }
+    // }
 
     private void Shoot(){
         if (Time.time > nextFireTime){
             nextFireTime = Time.time + fireRate;
             GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
             Vector2 direction = (player.position - firePoint.position).normalized;
-            projectile.GetComponent<Rigidbody2D>().velocity = direction * moveSpeed * 3;
+            projectile.GetComponent<Rigidbody2D>().velocity =  moveSpeed * 3 * direction;
         }
     }
 }

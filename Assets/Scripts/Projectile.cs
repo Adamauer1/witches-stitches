@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    private void Awake(){
-    }
-
     private void OnTriggerEnter2D(Collider2D collider){
         if(collider.gameObject.CompareTag("Player")){
             PlayerHealth player = collider.gameObject.GetComponent<PlayerHealth>();

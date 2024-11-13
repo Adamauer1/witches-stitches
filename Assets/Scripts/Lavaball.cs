@@ -7,7 +7,8 @@ public class Lavaball : MonoBehaviour
 {
     [SerializeField] private Transform startTransform;
     [SerializeField] private Transform endTransform;
-    public float speed = 5f;
+    [SerializeField] private float directionDelay = 1f;
+    [SerializeField] private float speed = 5f;
     private Vector3 target;
     private bool isMoving;
     private float currentSpeed;
@@ -28,17 +29,9 @@ public class Lavaball : MonoBehaviour
             }
             transform.position = Vector3.MoveTowards(transform.position, target, currentSpeed * Time.deltaTime);
             if (Vector3.Distance(transform.position, target) < 0.01f){
-                // StartCoroutine(FlipDirection());
                 target = target == startTransform.position ? endTransform.position : startTransform.position; 
             }
         }
-    }
-
-    private IEnumerator FlipDirection(){
-        isMoving = false;
-        yield return new WaitForSeconds(1f);
-        target = target == startTransform.position ? endTransform.position : startTransform.position; 
-        isMoving = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collider){

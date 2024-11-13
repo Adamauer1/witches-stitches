@@ -176,6 +176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startTransform: {fileID: 4580758200210714704}
   endTransform: {fileID: 3651756215993979931}
+  boxCollider: {fileID: 5993538388912774895}
   speed: 2
 --- !u!1 &6921907718532507415
 GameObject:
