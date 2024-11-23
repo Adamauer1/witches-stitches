@@ -11,7 +11,9 @@ public class GameManager : MonoBehaviour
     //[SerializeField] PlayerHealth playerHealth;
     [SerializeField] private PlayerController player;
     [SerializeField] private PlayerHealth playerHealth;
-    private PlayerData playerData;
+    [SerializeField] private UpgradeController upgradeController;
+    public int test = 5;
+    // private PlayerData playerData;
 
     private void Awake(){
         if (instance == null){
@@ -21,28 +23,52 @@ public class GameManager : MonoBehaviour
         else{
             Destroy(gameObject);
         }
+        // SetDefaultPlayerData();
+        SpawnPlayer();
     }
 
     // private void Start(){
-    //     player = 
+    //     SetDefaultPlayerData();
     // }
 
     public void ResetGame(){
+        // SetDefaultPlayerData();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Debug.Log("Reset Level");
-        SetDefaultPlayerData();
+        SpawnPlayer();
+        // SetDefaultPlayerData();
         
     }
 
-    public void SetDefaultPlayerData(){
-        playerData.attackCoolDown = 0;
-        playerData.attackDamage = 0;
-        playerData.attackRange = 0;
-        playerData.canDoubleJump = false;
-        playerData.currentHealth = 4;
-        playerData.maxHealth = 4;
-        player.SetPlayerData(playerData);
-        playerHealth.SetPlayerData(playerData);
+    public IEnumerator NextLevel(){
+        // player.SetDoubleJump(true);
+        upgradeController.gameObject.SetActive(true);
+        yield return new WaitUntil(() => upgradeController.upgradeSelected);
+        upgradeController.upgradeSelected = false;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SpawnPlayer();
     }
+
+
+    private void SpawnPlayer(){
+        player.transform.position = GameObject.Find("SpawnPoint").transform.position;
+    }
+
+    // public void SetDefaultPlayerData(){
+    //     playerData.attackCoolDown = 0;
+    //     playerData.attackDamage = 0;
+    //     playerData.attackRange = 0;
+    //     playerData.canDoubleJump = false;
+    //     playerData.currentHealth = 4;
+    //     playerData.maxHealth = 4;
+    //     Debug.Log("load player data");
+    //     Debug.Log(playerData);
+    //     // player.SetPlayerData(playerData);
+    //     // playerHealth.SetPlayerData(playerData);
+    // }
+
+    // public PlayerData GetPlayerData(){
+    //     return playerData;
+    // }
 
 }

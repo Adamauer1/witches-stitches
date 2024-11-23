@@ -18,6 +18,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     }
 
     private void Start(){
+        // maxHealth = GameManager.instance.GetPlayerData().maxHealth;
+        // Debug.Log(GameManager.instance.GetPlayerData().maxHealth);
+        // Debug.Log(maxHealth);
+        currentHealth = maxHealth;
         healthText.text = currentHealth.ToString();
     }
 

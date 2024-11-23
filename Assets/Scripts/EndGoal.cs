@@ -9,7 +9,7 @@ public class EndGoal : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collider){
         //temp
         if (collider.gameObject.CompareTag("Player")){
-            GameManager.instance.ResetGame();
+            StartCoroutine(GameManager.instance.NextLevel());
         }
     }
 }

@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Jump")]
-    [SerializeField] private bool doubleJumpActive = true;
+    [SerializeField] private bool doubleJumpActive = false;
     [SerializeField] private bool canDoubleJump = false;
     [SerializeField] private float jumpHeight = 6.5f;
     private bool triggerJump;
@@ -63,7 +63,16 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    private static PlayerController instance;
+
     private void Awake (){
+        if (instance == null){
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else{
+            Destroy(gameObject);
+        }
         rb = GetComponent<Rigidbody2D>();
 
         gravityStrength = -(2 * jumpHeight) / (jumpTimeToApex * jumpTimeToApex);
@@ -296,6 +305,10 @@ public class PlayerController : MonoBehaviour
 
     public void SetCanInput(bool canInput){
         this.canInput = canInput;
+    }
+
+    public void SetDoubleJump(bool doubleJump){
+        this.doubleJumpActive = doubleJump;
     }
 
     public void SetPlayerData(PlayerData playerData){
