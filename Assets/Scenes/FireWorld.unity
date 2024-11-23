@@ -20317,7 +20317,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6112e81acc99c2046ba7d9e215e3a3b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth: {fileID: 0}
+  player: {fileID: 1795872230}
+  playerHealth: {fileID: 1795872229}
 --- !u!4 &1399984521
 Transform:
   m_ObjectHideFlags: 0
@@ -20917,6 +20918,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1795872229 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 639653604294660951, guid: 5e9251c28c8503c46be97ffad268aaed, type: 3}
+  m_PrefabInstance: {fileID: 8195881500676684178}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795872221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90b19fc75d0b3ea44ab9a8f97a01ce1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1795872230 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4584687106323713076, guid: 5e9251c28c8503c46be97ffad268aaed, type: 3}
+  m_PrefabInstance: {fileID: 8195881500676684178}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795872221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd1350dfaa769924bbe3c19c653dbe67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1851473304
 GameObject:
   m_ObjectHideFlags: 3

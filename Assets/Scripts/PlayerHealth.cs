@@ -49,4 +49,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(iFrames);
         canTakeDamage = true;
     }
+
+    public void SetPlayerData(PlayerData playerData){
+        currentHealth = playerData.currentHealth;
+        maxHealth = playerData.maxHealth;
+    }
 }

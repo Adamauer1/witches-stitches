@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Jump")]
+    [SerializeField] private bool doubleJumpActive = true;
+    [SerializeField] private bool canDoubleJump = false;
     [SerializeField] private float jumpHeight = 6.5f;
     private bool triggerJump;
     private bool triggerJumpCut;
@@ -86,6 +88,7 @@ public class PlayerController : MonoBehaviour
 
             // counts up when in the falling state
             if (!isJumping && !isJumpFalling && !isGrounded){
+                canDoubleJump = true && doubleJumpActive;
                 coyoteTimer += Time.deltaTime;
             }
             else {
@@ -192,8 +195,15 @@ public class PlayerController : MonoBehaviour
     // Applys the jump action to the player
     private void Jump(){
         if (triggerJump){
-            if (isGrounded  || (coyoteTimer > 0.05f && coyoteTimer < coyoteTime)){
+            if (isGrounded  || (coyoteTimer > 0.05f && coyoteTimer < coyoteTime) || canDoubleJump){
                 triggerJump = false;
+                // jumpCharges--;
+                if (!isGrounded  || (coyoteTimer > coyoteTime)){
+                    canDoubleJump = false;
+                }
+                else {
+                    canDoubleJump = true && doubleJumpActive;
+                }
                 coyoteTimer = 0;
                 float force = jumpForce;
                 if (rb.velocity.y < 0)
@@ -255,6 +265,7 @@ public class PlayerController : MonoBehaviour
         if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer))
 			{
                 isGrounded = true;
+                canDoubleJump = false;
                 isJumpFalling = false;
                 isJumping = false;
                 triggerJumpCut = false;
@@ -285,6 +296,13 @@ public class PlayerController : MonoBehaviour
 
     public void SetCanInput(bool canInput){
         this.canInput = canInput;
+    }
+
+    public void SetPlayerData(PlayerData playerData){
+        attackCoolDown = playerData.attackCoolDown;
+        attackDamage = playerData.attackDamage;
+        attackRange = playerData.attackRange;
+        //canDoubleJump = playerData.canDoubleJump;
     }
 
 
