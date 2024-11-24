@@ -20136,12 +20136,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upgradeSelected: 0
-  optionPanels:
-  - {fileID: 0}
-  - {fileID: 1581899415}
-  - {fileID: 1610709659}
-  playerUpgrades: []
-  test: []
+  panelPositions:
+  - {fileID: 1581899416}
+  - {fileID: 1158679002}
+  - {fileID: 1610709660}
+  playerUpgradePanels:
+  - {fileID: 7106933218708155534, guid: 36a8a18fd7afd994b92c3887f9d10a9f, type: 3}
 --- !u!1 &1158679001
 GameObject:
   m_ObjectHideFlags: 0
@@ -20549,7 +20549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1795872230}
   playerHealth: {fileID: 1795872229}
-  upgradeController: {fileID: 0}
+  upgradeController: {fileID: 1083566478}
   test: 5
 --- !u!4 &1399984521
 Transform:
