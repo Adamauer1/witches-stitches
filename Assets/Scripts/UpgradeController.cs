@@ -6,9 +6,10 @@ public class UpgradeController : MonoBehaviour
 {
     public bool upgradeSelected = false;
 
-    [SerializeField] GameObject[] optionPanels;
-    [SerializeField] GameObject[] playerUpgrades;
-    [SerializeField] float[] test;
+    [SerializeField] Transform[] panelPositions;
+    [SerializeField] GameObject[] playerUpgradePanels;
+    [SerializeField] IPlayerUpgrade test;
+
     
     public void SelectUpgrade(int upgrade){
         
@@ -18,9 +19,9 @@ public class UpgradeController : MonoBehaviour
     }
 
     public void ActivatePanels(){
-        foreach (var panel in optionPanels){
+        foreach (Transform panel in panelPositions){
             // panel.GetComponent<UpgradeOption>().playerUpgrade = playerUpgrades[0];
-            // Instantiate(playerUpgrades[0],optionPanels.po)
+            Instantiate(playerUpgradePanels[0], panel.position, Quaternion.identity);
         }
     }
 }
