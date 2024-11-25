@@ -8,9 +8,11 @@ public class UpgradeController : MonoBehaviour
 
     [SerializeField] Transform[] panelPositions;
     [SerializeField] GameObject[] playerUpgradePanels;
-    [SerializeField] IPlayerUpgrade test;
-
     
+    private void Start(){
+        ActivatePanels();
+    }
+
     public void SelectUpgrade(int upgrade){
         
         // TextMeshProUGUI upgrade = GetComponentInChildren<TextMeshProUGUI>();
@@ -21,7 +23,7 @@ public class UpgradeController : MonoBehaviour
     public void ActivatePanels(){
         foreach (Transform panel in panelPositions){
             // panel.GetComponent<UpgradeOption>().playerUpgrade = playerUpgrades[0];
-            Instantiate(playerUpgradePanels[0], panel.position, Quaternion.identity);
+            Instantiate(playerUpgradePanels[0], panel.position, Quaternion.identity, panel);
         }
     }
 }

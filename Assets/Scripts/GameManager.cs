@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
     public IEnumerator NextLevel(){
         // player.SetDoubleJump(true);
         upgradeController.gameObject.SetActive(true);
+        player.SetCanInput(false);
+        // upgradeController
         yield return new WaitUntil(() => upgradeController.upgradeSelected);
         upgradeController.upgradeSelected = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -52,6 +54,7 @@ public class GameManager : MonoBehaviour
 
     private void SpawnPlayer(){
         player.transform.position = GameObject.Find("SpawnPoint").transform.position;
+        player.SetCanInput(true);
     }
 
     // public void SetDefaultPlayerData(){

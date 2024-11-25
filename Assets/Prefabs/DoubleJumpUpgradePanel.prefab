@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 7245678642266940374}
   - component: {fileID: 1733404542551639909}
   - component: {fileID: 5819681029835741901}
-  - component: {fileID: -6133878688786147808}
+  - component: {fileID: 9217717462028505714}
   m_Layer: 5
   m_Name: DoubleJumpUpgradePanel
   m_TagString: Untagged
@@ -256,7 +256,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -6133878688786147808}
+      - m_Target: {fileID: 9217717462028505714}
         m_TargetAssemblyTypeName: DoubleJumpUpgrade, Assembly-CSharp
         m_MethodName: ApplyUpgrade
         m_Mode: 1
@@ -268,7 +268,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &-6133878688786147808
+--- !u!114 &9217717462028505714
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
