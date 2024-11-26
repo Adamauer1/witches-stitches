@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 1944634880731400146}
   - component: {fileID: 7256397589021960825}
   - component: {fileID: 4430642052678019026}
-  - component: {fileID: 1672770382785764145}
   - component: {fileID: 6971351854423329962}
   - component: {fileID: 7084110009117976732}
   - component: {fileID: 4205940698815092661}
   - component: {fileID: 7785069075755865499}
+  - component: {fileID: 3390526179292323313}
   m_Layer: 7
   m_Name: Flying Enemy
   m_TagString: Untagged
@@ -103,28 +103,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 3
---- !u!114 &1672770382785764145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 198921788152597285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81d68a782493c3a41942fbb238af26a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shootingRange: 5
-  chaseRange: 15
-  moveSpeed: 2
-  fireRate: 1
-  projectilePrefab: {fileID: 3290722703837992966, guid: c08bd9e1730d3c049a4925090acf1042, type: 3}
-  firePoint: {fileID: 1944634880731400146}
-  contactLayer:
-    serializedVersion: 2
-    m_Bits: 832
-  aIPath: {fileID: 7084110009117976732}
 --- !u!114 &6971351854423329962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,3 +222,25 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &3390526179292323313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198921788152597285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78333f3153b374c44a7cdc7daae88a31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootingRange: 5
+  chaseRange: 15
+  moveSpeed: 2
+  fireRate: 3
+  projectilePrefab: {fileID: 3290722703837992966, guid: c08bd9e1730d3c049a4925090acf1042, type: 3}
+  firePoint: {fileID: 1944634880731400146}
+  contactLayer:
+    serializedVersion: 2
+    m_Bits: 832
+  aIPath: {fileID: 0}

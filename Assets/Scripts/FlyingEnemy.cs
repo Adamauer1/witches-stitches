@@ -1,11 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 using UnityEngine.Animations;
 
-public class Enemy : MonoBehaviour
+public class FlyingEnemy : MonoBehaviour, IEnemy
 {
     private Transform player;
     [SerializeField] private float shootingRange = 5f;
@@ -18,6 +17,10 @@ public class Enemy : MonoBehaviour
     private float nextFireTime = 0f;
 
     public AIPath aIPath;
+
+    private void Awake(){
+        aIPath = GetComponent<AIPath>();
+    }
     private void Start(){
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
@@ -74,4 +77,15 @@ public class Enemy : MonoBehaviour
             projectile.GetComponent<Rigidbody2D>().velocity =  moveSpeed * 3 * direction;
         }
     }
+
+    public void Move()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Attack()
+    {
+        throw new System.NotImplementedException();
+    }
+
 }
