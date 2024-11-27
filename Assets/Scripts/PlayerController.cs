@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     
     
     [Header("Gravity")]
+    private bool isFalling;
     [SerializeField] private float maxFallSpeed = 18f;
     private float gravityStrength;
     private float gravityScale;
@@ -118,6 +119,9 @@ public class PlayerController : MonoBehaviour
                 isJumping = false;
                 isJumpFalling = true;
                 triggerJumpCut = false;
+                isFalling = true;
+                animator.SetBool("isJumping", false);
+                animator.SetBool("isFalling", true);
             }
 
             // Updates all of the players gravity depending on their current state
@@ -153,6 +157,8 @@ public class PlayerController : MonoBehaviour
 			{
 				SetGravityScale(gravityScale * 2);
 				rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
+                isFalling = true;
+                //animator.SetBool("isFalling", true);
                 // Debug.Log("t");
                 
 			}
@@ -171,6 +177,12 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
+        if (movementInput.x == 0){
+            animator.SetBool("isWalking", false);
+        }
+        else {
+            animator.SetBool("isWalking", true);
+        }
         float targetVelocity = movementInput.x * moveSpeed;
         targetVelocity = Mathf.Lerp(rb.velocity.x, targetVelocity, 1);
 
@@ -217,7 +229,10 @@ public class PlayerController : MonoBehaviour
                 float force = jumpForce;
                 if (rb.velocity.y < 0)
 		        	force -= rb.velocity.y;
-                rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);    
+                rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+                animator.SetTrigger("jump");
+                animator.SetBool("isJumping", true);
+
                 isJumping = true;
             }
         }
@@ -237,6 +252,10 @@ public class PlayerController : MonoBehaviour
             damageable?.Damage(attackDamage);
         }
     }
+
+    // private void UpdateAnimation(){
+
+    // }
 
     // Handles the input for the movement of the player
     public void HandleMove(InputAction.CallbackContext context){
@@ -273,11 +292,20 @@ public class PlayerController : MonoBehaviour
         // player is touching the ground if the box overlaps with a collider that has the groundLayer layer 
         if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer))
 			{
+                if (isFalling){
+                    animator.SetBool("isFalling", false);
+                   // animator.SetBool("isLanding", true);
+                    animator.SetTrigger("Landing");
+                    isFalling = false;
+                }
+                
+                isFalling = false;
                 isGrounded = true;
                 canDoubleJump = false;
                 isJumpFalling = false;
                 isJumping = false;
                 triggerJumpCut = false;
+                animator.SetBool("isJumping", false);
                 // Debug.Log("Is Grounded");
             }	
             else {

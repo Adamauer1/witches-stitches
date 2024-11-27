@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Debug.Log("Reset Level");
         SpawnPlayer();
+        // playerHealth.currentHealth = playerHealth.maxHealth;
+        playerHealth.SetMaxHealth();
         // SetDefaultPlayerData();
         
     }

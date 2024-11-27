@@ -5,16 +5,19 @@ using TMPro;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    [SerializeField] private float maxHealth = 5f;
+    [SerializeField] public float maxHealth = 5f;
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private float iFrames = 0.3f;
+    private Animator animator;
     private bool canTakeDamage = true;
     private PlayerController playerController;
-    private float currentHealth;
+    public float currentHealth;
+    public bool deathOver = false;
     private void Awake(){
         currentHealth = maxHealth;
         playerController = GetComponent<PlayerController>();
+        animator = GetComponent<Animator>();
     }
 
     private void Start(){
@@ -31,7 +34,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             if (currentHealth <= 0){
                 currentHealth = 0;
                 healthText.text = currentHealth.ToString();
-                StartCoroutine(Die());
+                // StartCoroutine(Die());
+                Die();
+
             }
             else{
                 healthText.text = currentHealth.ToString();
@@ -41,17 +46,38 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         
     }
 
-    public IEnumerator Die(){
+    public void Die(){
         playerController.SetCanInput(false);
-        yield return new WaitForSeconds(0.5f);
-        playerController.SetCanInput(true);
-        GameManager.instance.ResetGame();
+        animator.SetTrigger("death");
+        // yield return new WaitForSeconds(0.5f);
+        // while (!deathOver){
+        //     yield return null;
+        // }
+        // yield return new WaitUntil(() => deathOver);
+        // GameManager.instance.ResetGame();
+        // playerController.SetCanInput(true);
+        // deathOver = false;
+    }
+
+    public void SetHealth(float health){
+        currentHealth = health;
+        healthText.text = currentHealth.ToString();
+    }
+
+    public void SetMaxHealth(){
+        SetHealth(maxHealth);
     }
 
     public IEnumerator RunIFrame(){
         canTakeDamage = false;
         yield return new WaitForSeconds(iFrames);
         canTakeDamage = true;
+    }
+
+    public void DeathOver(){
+        GameManager.instance.ResetGame();
+        playerController.SetCanInput(true);
+        deathOver = false;
     }
 
     public void SetPlayerData(PlayerData playerData){

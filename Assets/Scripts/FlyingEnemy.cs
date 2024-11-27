@@ -19,10 +19,11 @@ public class FlyingEnemy : MonoBehaviour, IEnemy
     public AIPath aIPath;
 
     private void Awake(){
-        aIPath = GetComponent<AIPath>();
+        // aIPath = GetComponent<AIPath>();
     }
     private void Start(){
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        aIPath = GetComponent<AIPath>();
     }
     void Update()
     {
