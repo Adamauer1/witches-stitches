@@ -40,13 +40,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             }
             else{
                 healthText.text = currentHealth.ToString();
-                StartCoroutine(RunIFrame());
+                //StartCoroutine(RunIFrame());
             }
         }
         
     }
 
     public void Die(){
+        canTakeDamage = false;
         playerController.SetCanInput(false);
         animator.SetTrigger("death");
         // yield return new WaitForSeconds(0.5f);
@@ -68,20 +69,25 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         SetHealth(maxHealth);
     }
 
-    public IEnumerator RunIFrame(){
-        canTakeDamage = false;
-        yield return new WaitForSeconds(iFrames);
-        canTakeDamage = true;
-    }
+    // public IEnumerator RunIFrame(){
+    //     canTakeDamage = false;
+    //     yield return new WaitForSeconds(iFrames);
+    //     canTakeDamage = true;
+    // }
 
     public void DeathOver(){
         GameManager.instance.ResetGame();
         playerController.SetCanInput(true);
         deathOver = false;
+        canTakeDamage = true;
     }
 
     public void SetPlayerData(PlayerData playerData){
         currentHealth = playerData.currentHealth;
         maxHealth = playerData.maxHealth;
+    }
+
+    public void UpdateHealthText(){
+        healthText.text = currentHealth.ToString();
     }
 }

@@ -129,7 +129,7 @@ Transform:
   m_GameObject: {fileID: 3634033208727341330}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.36, y: 0.29, z: 0}
+  m_LocalPosition: {x: 1.27, y: -0.35, z: 0}
   m_LocalScale: {x: 1.1679688, y: 1.45, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -611,7 +611,7 @@ Transform:
   m_GameObject: {fileID: 6409191833316650373}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.61, z: 0}
+  m_LocalPosition: {x: 0, y: -1.33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -788,8 +788,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.12978554, y: 0.10976702}
-  m_Size: {x: 1.1179867, y: 1.4501024}
+  m_Offset: {x: -0.21398067, y: -0.49902833}
+  m_Size: {x: 1.0791283, y: 1.6573517}
   m_Direction: 0
 --- !u!50 &1589748913897830182
 Rigidbody2D:
@@ -926,7 +926,7 @@ MonoBehaviour:
   coyoteTime: 0.1
   maxFallSpeed: 18
   jumpCutGravityMult: 3.5
-  attackCoolDown: 0.5
+  attackCoolDown: 0.6
   attackDamage: 1
   enemyLayer:
     serializedVersion: 2
@@ -945,7 +945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90b19fc75d0b3ea44ab9a8f97a01ce1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 2
+  maxHealth: 10
   healthText: {fileID: 5232861624097795781}
   spawnPoint: {fileID: 0}
   iFrames: 0.3

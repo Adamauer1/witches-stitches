@@ -63,6 +63,7 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     private Rigidbody2D rb;
+    private bool canAttack = true;
 
     private static PlayerController instance;
 
@@ -82,16 +83,21 @@ public class PlayerController : MonoBehaviour
         
         gravityScale = gravityStrength / Physics2D.gravity.y;
         animator = GetComponent<Animator>();
+        canAttack = true;
     }
 
     private void Update(){
             
-            if (triggerAttack && attackTimer > attackCoolDown){
+            // if (triggerAttack && attackTimer > attackCoolDown){
+            if (triggerAttack && canAttack){
                 triggerAttack = false;
                 // Debug.Log("Attack Triggered");
                 attackTimer = 0;
-                Attack();
+                // Attack();
+                canAttack = false;
                 animator.SetTrigger("attack");
+                animator.SetBool("isFalling", false);
+                animator.SetBool("isJumping", false);
             }
 
             attackTimer += Time.deltaTime;
@@ -122,6 +128,7 @@ public class PlayerController : MonoBehaviour
                 isFalling = true;
                 animator.SetBool("isJumping", false);
                 animator.SetBool("isFalling", true);
+                canAttack = true;
             }
 
             // Updates all of the players gravity depending on their current state
@@ -182,6 +189,7 @@ public class PlayerController : MonoBehaviour
         }
         else {
             animator.SetBool("isWalking", true);
+            canAttack = true;
         }
         float targetVelocity = movementInput.x * moveSpeed;
         targetVelocity = Mathf.Lerp(rb.velocity.x, targetVelocity, 1);
@@ -232,7 +240,7 @@ public class PlayerController : MonoBehaviour
                 rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
                 animator.SetTrigger("jump");
                 animator.SetBool("isJumping", true);
-
+                canAttack = true;
                 isJumping = true;
             }
         }
@@ -242,7 +250,7 @@ public class PlayerController : MonoBehaviour
         // attackTransform.GetComponent<SpriteRenderer>().enabled = true;
         // targetsHit = Physics2D.CircleCastAll(attackTransform.position, attackRange, transform.right, 0f, enemyLayer);
         //targetsHit = Physics2D.BoxCastAll(attackTransform.position, new Vector2(1.8f, 2), transform.right, 0f, enemyLayer);
-        targetsHit = Physics2D.OverlapBoxAll(attackTransform.position, new Vector2(1.8f, 3), 0, enemyLayer);
+        targetsHit = Physics2D.OverlapBoxAll(attackTransform.position, new Vector2(1.5f, 2), 0, enemyLayer);
         // Debug.Log("Test");
         for (int i = 0; i < targetsHit.Length; i++){
             // Debug.Log(targetsHit[i].collider.gameObject);
@@ -251,6 +259,12 @@ public class PlayerController : MonoBehaviour
 
             damageable?.Damage(attackDamage);
         }
+        StartCoroutine(ResetAttack());
+    }
+
+    private IEnumerator ResetAttack(){
+        yield return new WaitForSeconds(attackCoolDown);
+        canAttack = true;
     }
 
     // private void UpdateAnimation(){
@@ -278,7 +292,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public void HandleAttack(InputAction.CallbackContext context){
-        if (context.performed && canInput){
+        if (context.performed && canInput && canAttack){
             triggerAttack = true;
         }
     }
@@ -296,6 +310,7 @@ public class PlayerController : MonoBehaviour
                     animator.SetBool("isFalling", false);
                    // animator.SetBool("isLanding", true);
                     animator.SetTrigger("Landing");
+                    canAttack = true;
                     isFalling = false;
                 }
                 
@@ -346,10 +361,14 @@ public class PlayerController : MonoBehaviour
         //canDoubleJump = playerData.canDoubleJump;
     }
 
+    public void ApplyDamageUpgrade(){
+        attackDamage += 3;
+    }
+
 
     private void OnDrawGizmos(){
         //Gizmos.DrawLine(attackTransform, origin + direction * distance);
-        Gizmos.DrawWireCube(attackTransform.position, new Vector3(1.8f,3,0));
+        Gizmos.DrawWireCube(attackTransform.position, new Vector3(1.5f,2,0));
     }
 
 }

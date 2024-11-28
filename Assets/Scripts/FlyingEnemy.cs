@@ -18,12 +18,20 @@ public class FlyingEnemy : MonoBehaviour, IEnemy
 
     public AIPath aIPath;
 
+    public AIDestinationSetter aIDestinationSetter;
+    private Animator animator;
+    private bool canAttack;
+
     private void Awake(){
-        // aIPath = GetComponent<AIPath>();
+        aIPath = GetComponent<AIPath>();
+        aIDestinationSetter = GetComponent<AIDestinationSetter>();
     }
     private void Start(){
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        aIPath = GetComponent<AIPath>();
+        //aIPath = GetComponent<AIPath>();
+        aIDestinationSetter.target = player;
+        animator = GetComponent<Animator>();
+        canAttack = true;
     }
     void Update()
     {
@@ -42,14 +50,20 @@ public class FlyingEnemy : MonoBehaviour, IEnemy
 
         if (distanceToPlayer > chaseRange){
             aIPath.enabled = false;
+            animator.SetBool("IsFlying", false);
         }
         else if (distanceToPlayer > shootingRange && distanceToPlayer < chaseRange){
             // MoveTowardsPlayer();
             aIPath.enabled = true;
+            animator.SetBool("IsFlying", true);
         }
         else if (distanceToPlayer < shootingRange && CanSeePlayer()) {
             aIPath.enabled = false;
-            Shoot();
+            animator.SetBool("IsFlying", false);
+            if (canAttack){
+                canAttack = false;
+                animator.SetTrigger("Attack");
+            }
         }
     }
 
@@ -71,12 +85,18 @@ public class FlyingEnemy : MonoBehaviour, IEnemy
     // }
 
     private void Shoot(){
-        if (Time.time > nextFireTime){
-            nextFireTime = Time.time + fireRate;
+        // if (Time.time > nextFireTime){
+            // nextFireTime = Time.time + fireRate;
             GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
             Vector2 direction = (player.position - firePoint.position).normalized;
             projectile.GetComponent<Rigidbody2D>().velocity =  moveSpeed * 3 * direction;
-        }
+            StartCoroutine(ResetAttack());
+        // }
+    }
+
+    private IEnumerator ResetAttack(){
+        yield return new WaitForSeconds(fireRate);
+        canAttack = true;
     }
 
     public void Move()

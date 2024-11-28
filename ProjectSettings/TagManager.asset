@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ice
+  - Crystal
+  - Upgrade
   layers:
   - Default
   - TransparentFX

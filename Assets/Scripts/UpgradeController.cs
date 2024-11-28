@@ -21,9 +21,12 @@ public class UpgradeController : MonoBehaviour
     }
 
     public void ActivatePanels(){
-        foreach (Transform panel in panelPositions){
-            // panel.GetComponent<UpgradeOption>().playerUpgrade = playerUpgrades[0];
-            Instantiate(playerUpgradePanels[0], panel.position, Quaternion.identity, panel);
+        // foreach (Transform panel in panelPositions){
+        //     // panel.GetComponent<UpgradeOption>().playerUpgrade = playerUpgrades[0];
+        //     Instantiate(playerUpgradePanels[0], panel.position, Quaternion.identity, panel);
+        // }
+        for (int i = 0; i < panelPositions.Length; i++){
+            Instantiate(playerUpgradePanels[i], panelPositions[i].position, Quaternion.identity, panelPositions[i]);
         }
     }
 }
