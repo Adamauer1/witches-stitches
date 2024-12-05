@@ -60,12 +60,26 @@ public class PlayerController : MonoBehaviour
     // private RaycastHit2D[] targetsHit;
     private Collider2D[] targetsHit;
     private bool triggerAttack = false;
-    private Animator animator;
+    //private Animator animator;
+
+    PlayerAnimatorController playerAnimatorController;
 
     private Rigidbody2D rb;
     private bool canAttack = true;
 
     private static PlayerController instance;
+    public const string ATTACKONE = "Attack1";
+    public const string ATTACKTWO = "Attack2";
+    public const string ATTACKTHREE = "Attack3";
+    public const string IDLE = "Idle";
+    public const string WALK = "Walking";
+    public const string JUMPSTART = "JumpStart";
+    public const string JUMPAPEX = "JumpApex";
+    public const string JUMP = "Jump";
+    public const string FALLING = "Falling";
+    public const string LANDING = "Landing";
+    //public const string DEATH = "Death";
+
 
     private void Awake (){
         if (instance == null){
@@ -82,25 +96,36 @@ public class PlayerController : MonoBehaviour
         jumpForce = Mathf.Abs(gravityStrength) * jumpTimeToApex;
         
         gravityScale = gravityStrength / Physics2D.gravity.y;
-        animator = GetComponent<Animator>();
-        canAttack = true;
+        //animator = GetComponent<Animator>();
+        playerAnimatorController = GetComponent<PlayerAnimatorController>();
+        //canAttack = true;
     }
 
     private void Update(){
             
             // if (triggerAttack && attackTimer > attackCoolDown){
-            if (triggerAttack && canAttack){
+            if (triggerAttack){
                 triggerAttack = false;
+                if (canAttack){
+                    attackTimer = 0;
+                    // Attack();
+                    canAttack = false;
+                    playerAnimatorController.ChangeAnimationState(ATTACKONE);
+                    Invoke("ResetAttack", playerAnimatorController.GetCurrentAnimationDuration());
+                
+                }
                 // Debug.Log("Attack Triggered");
-                attackTimer = 0;
-                // Attack();
-                canAttack = false;
-                animator.SetTrigger("attack");
-                animator.SetBool("isFalling", false);
-                animator.SetBool("isJumping", false);
+                // attackTimer = 0;
+                // // Attack();
+                // canAttack = false;
+                // playerAnimatorController.ChangeAnimationState(ATTACKONE);
+                
+                // animator.SetTrigger("attack");
+                // animator.SetBool("isFalling", false);
+                // animator.SetBool("isJumping", false);
             }
 
-            attackTimer += Time.deltaTime;
+            //attackTimer += Time.deltaTime;
 
             // counts up when in the falling state
             if (!isJumping && !isJumpFalling && !isGrounded){
@@ -126,9 +151,17 @@ public class PlayerController : MonoBehaviour
                 isJumpFalling = true;
                 triggerJumpCut = false;
                 isFalling = true;
-                animator.SetBool("isJumping", false);
-                animator.SetBool("isFalling", true);
-                canAttack = true;
+                //animator.SetBool("isJumping", false);
+                //animator.SetBool("isFalling", true);
+                //if (canAttack)
+                    //playerAnimatorController.ChangeAnimationState(FALLING);
+                //canAttack = true;
+            }
+            if (isJumping && canAttack){
+                playerAnimatorController.ChangeAnimationState(JUMP);
+            }
+            if (isFalling && canAttack){
+                playerAnimatorController.ChangeAnimationState(FALLING);
             }
 
             // Updates all of the players gravity depending on their current state
@@ -149,6 +182,7 @@ public class PlayerController : MonoBehaviour
 
     // Updates all of the players gravity depending on their current state
     private void UpdateGravity(){
+        //Debug.Log(rb.velocity.y);
             // cuts the jump if the player releases the button before the apex is reached
 			if (triggerJumpCut)
 			{
@@ -160,11 +194,12 @@ public class PlayerController : MonoBehaviour
 				SetGravityScale(gravityScale * 1);
                 
 			}
-			else if (rb.velocity.y < 0)
+			else if (rb.velocity.y < -0.03 && canAttack)
 			{
 				SetGravityScale(gravityScale * 2);
 				rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
                 isFalling = true;
+                playerAnimatorController.ChangeAnimationState(FALLING);
                 //animator.SetBool("isFalling", true);
                 // Debug.Log("t");
                 
@@ -184,12 +219,16 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
-        if (movementInput.x == 0){
-            animator.SetBool("isWalking", false);
-        }
-        else {
-            animator.SetBool("isWalking", true);
-            canAttack = true;
+        if (isGrounded && canAttack){
+            if (movementInput.x == 0){
+            //animator.SetBool("isWalking", false);
+                playerAnimatorController.ChangeAnimationState(IDLE);
+            }
+            else {
+            //animator.SetBool("isWalking", true);
+                playerAnimatorController.ChangeAnimationState(WALK);
+                //canAttack = true;
+            }
         }
         float targetVelocity = movementInput.x * moveSpeed;
         targetVelocity = Mathf.Lerp(rb.velocity.x, targetVelocity, 1);
@@ -238,9 +277,10 @@ public class PlayerController : MonoBehaviour
                 if (rb.velocity.y < 0)
 		        	force -= rb.velocity.y;
                 rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-                animator.SetTrigger("jump");
-                animator.SetBool("isJumping", true);
-                canAttack = true;
+                //playerAnimatorController.ChangeAnimationState(JUMP);
+                // animator.SetTrigger("jump");
+                // animator.SetBool("isJumping", true);
+                //canAttack = true;
                 isJumping = true;
             }
         }
@@ -259,11 +299,11 @@ public class PlayerController : MonoBehaviour
 
             damageable?.Damage(attackDamage);
         }
-        StartCoroutine(ResetAttack());
+        //StartCoroutine(ResetAttack());
     }
 
-    private IEnumerator ResetAttack(){
-        yield return new WaitForSeconds(attackCoolDown);
+    private void ResetAttack(){
+        //yield return new WaitForSeconds(attackCoolDown);
         canAttack = true;
     }
 
@@ -307,10 +347,10 @@ public class PlayerController : MonoBehaviour
         if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer))
 			{
                 if (isFalling){
-                    animator.SetBool("isFalling", false);
+                    //animator.SetBool("isFalling", false);
                    // animator.SetBool("isLanding", true);
-                    animator.SetTrigger("Landing");
-                    canAttack = true;
+                    //animator.SetTrigger("Landing");
+                    //canAttack = true;
                     isFalling = false;
                 }
                 
@@ -320,7 +360,7 @@ public class PlayerController : MonoBehaviour
                 isJumpFalling = false;
                 isJumping = false;
                 triggerJumpCut = false;
-                animator.SetBool("isJumping", false);
+                //animator.SetBool("isJumping", false);
                 // Debug.Log("Is Grounded");
             }	
             else {
