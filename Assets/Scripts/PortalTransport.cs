@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EndGoal : MonoBehaviour
+public class PortalTransport : MonoBehaviour
 {
     [SerializeField] int nextLevelIndex;
 

@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
         // Call your SpawnPlayer function
         // upgradeController = GameObject.FindGameObjectWithTag("Upgrade").GetComponent<UpgradeController>();
         // Debug.Log(upgradeController);
-        if (SceneManager.GetActiveScene().buildIndex != 3){
+        if (SceneManager.GetActiveScene().buildIndex != 4){
             SpawnPlayer();
         }
     }
@@ -85,6 +85,11 @@ public class GameManager : MonoBehaviour
         if (levelIndex < 3){
             //SpawnPlayer();
         }
+    }
+
+    public void LoadLevel(int levelIndex){
+        SceneManager.LoadScene(levelIndex);
+        // SpawnPlayer();
     }
 
     
