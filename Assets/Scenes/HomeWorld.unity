@@ -3374,6 +3374,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2071721207 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7064377441961571911, guid: 5e9251c28c8503c46be97ffad268aaed, type: 3}
+  m_PrefabInstance: {fileID: 8195881500676684178}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30627449665481447bc394d5791600f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1759098679925006786
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3603,6 +3614,46 @@ PrefabInstance:
     - target: {fileID: 4935537677497573976, guid: 5e9251c28c8503c46be97ffad268aaed, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5207655804280716319, guid: 5e9251c28c8503c46be97ffad268aaed, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5207655804280716319, guid: 5e9251c28c8503c46be97ffad268aaed, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionId
+      value: c869bd74-379c-47be-b4c6-67f77ab32607
+      objectReference: {fileID: 0}
+    - target: {fileID: 5207655804280716319, guid: 5e9251c28c8503c46be97ffad268aaed, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionName
+      value: Player/FlappyJump[/Mouse/leftButton]
+      objectReference: {fileID: 0}
+    - target: {fileID: 5207655804280716319, guid: 5e9251c28c8503c46be97ffad268aaed, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5207655804280716319, guid: 5e9251c28c8503c46be97ffad268aaed, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5207655804280716319, guid: 5e9251c28c8503c46be97ffad268aaed, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2071721207}
+    - target: {fileID: 5207655804280716319, guid: 5e9251c28c8503c46be97ffad268aaed, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5207655804280716319, guid: 5e9251c28c8503c46be97ffad268aaed, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HandleJump
+      objectReference: {fileID: 0}
+    - target: {fileID: 5207655804280716319, guid: 5e9251c28c8503c46be97ffad268aaed, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerFlappyController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5207655804280716319, guid: 5e9251c28c8503c46be97ffad268aaed, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6424755362776303062, guid: 5e9251c28c8503c46be97ffad268aaed, type: 3}
       propertyPath: m_Name
