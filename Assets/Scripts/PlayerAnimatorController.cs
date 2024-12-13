@@ -24,6 +24,7 @@ public class PlayerAnimatorController : MonoBehaviour
     }
 
     public void ChangeAnimationState(string newAnimation){
+        Debug.Log("Changing animation to " + newAnimation);
         if (currentAnimaton == newAnimation){
             return;
         }

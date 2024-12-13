@@ -9,6 +9,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private float iFrames = 0.3f;
+    [SerializeField] private PlayerAnimatorController playerAnimatorController;
+    public const string DEATH = "Death";
     private Animator animator;
     private bool canTakeDamage = true;
     private PlayerController playerController;
@@ -18,6 +20,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         currentHealth = maxHealth;
         playerController = GetComponent<PlayerController>();
         animator = GetComponent<Animator>();
+        playerAnimatorController = GetComponent<PlayerAnimatorController>();
     }
 
     private void Start(){
@@ -34,6 +37,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             if (currentHealth <= 0){
                 currentHealth = 0;
                 healthText.text = currentHealth.ToString();
+                Debug.Log("DEAD");
                 // StartCoroutine(Die());
                 Die();
 
@@ -46,10 +50,16 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         
     }
 
+    public bool IsDead(){
+        return currentHealth <= 0;
+    }
+
     public void Die(){
         canTakeDamage = false;
         playerController.SetCanInput(false);
-        animator.SetTrigger("death");
+        // zero out movement
+        // animator.SetTrigger("death");
+        playerAnimatorController.ChangeAnimationState(DEATH);
         // yield return new WaitForSeconds(0.5f);
         // while (!deathOver){
         //     yield return null;

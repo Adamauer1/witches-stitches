@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerController player;
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private UpgradeController upgradeController;
-    public int test = 5;
+    [SerializeField] private Vector3 spawnPointPosition;
     // private PlayerData playerData;
 
     private void Awake(){
@@ -96,8 +96,13 @@ public class GameManager : MonoBehaviour
 
 
     private void SpawnPlayer(){
-        player.transform.position = GameObject.Find("SpawnPoint").transform.position;
+        //player.transform.position = GameObject.Find("SpawnPoint").transform.position;
+        player.transform.position = spawnPointPosition;
         player.SetCanInput(true);
+    }
+
+    public void UpdateSpawnPointLocation(Vector3 newPoint){
+        spawnPointPosition = newPoint;
     }
 
     // public void SetDefaultPlayerData(){

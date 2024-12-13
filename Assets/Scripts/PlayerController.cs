@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private bool canAttack = true;
 
+    private PlayerHealth playerHealth;
     private static PlayerController instance;
     public const string ATTACKONE = "Attack1";
     public const string ATTACKTWO = "Attack2";
@@ -90,6 +91,7 @@ public class PlayerController : MonoBehaviour
             Destroy(gameObject);
         }
         rb = GetComponent<Rigidbody2D>();
+        playerHealth = GetComponent<PlayerHealth>();
 
         gravityStrength = -(2 * jumpHeight) / (jumpTimeToApex * jumpTimeToApex);
         
@@ -219,7 +221,7 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
-        if (isGrounded && canAttack){
+        if (isGrounded && canAttack && !playerHealth.IsDead()){
             if (movementInput.x == 0){
             //animator.SetBool("isWalking", false);
                 playerAnimatorController.ChangeAnimationState(IDLE);
