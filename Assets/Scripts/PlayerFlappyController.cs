@@ -15,25 +15,35 @@ public class PlayerFlappyController : MonoBehaviour
     [SerializeField] private bool freezePlayer = false;
     [SerializeField] private GameObject flappyMenu;
     [SerializeField] private TextMeshProUGUI countdownText;
+    [SerializeField] private GameObject flappyHUD;
     public float tilt = 5f;
     private Vector3 direction;
 
     private Rigidbody2D rb;
 
 
-    private void Start(){
+    private void Awake(){
         rb = GetComponent<Rigidbody2D>();
         flappyMenu.SetActive(false);
     }
 
-    private void OnEnable(){
+    private void OnEnable()
+    {
+        freezePlayer = true;
         direction = Vector3.zero;
+        rb.gravityScale = 0;
+        rb.velocity = Vector2.zero;
         canInput = true;
-        
+        flappyHUD.SetActive(true);
+        transform.localScale = new Vector3(1,1,1);
+
     }
 
     private void OnDisable(){
         canInput = false;
+        flappyHUD.SetActive(false);
+        flappyMenu.SetActive(false);
+        countdownText.gameObject.SetActive(false);
     }
 
     private void Update(){
@@ -74,7 +84,7 @@ public class PlayerFlappyController : MonoBehaviour
         }
     }
 
-    private IEnumerator StartFlappyGame()
+    public IEnumerator StartFlappyGame()
     {
         int currentCount = 3;
         countdownText.gameObject.SetActive(true);

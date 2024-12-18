@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -28,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Jump")]
-    [SerializeField] private bool doubleJumpActive = false;
+    [SerializeField] public bool doubleJumpActive = false;
     [SerializeField] private bool canDoubleJump = false;
     [SerializeField] private float jumpHeight = 6.5f;
     private bool triggerJump;
@@ -66,6 +67,10 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private bool canAttack = true;
+    [SerializeField] private float coinAmount = 0;
+    [SerializeField] private TextMeshProUGUI coinText;
+    [SerializeField] private GameObject hudHealth;
+    [SerializeField] private GameObject hudCoins;
 
     private PlayerHealth playerHealth;
     private static PlayerController instance;
@@ -102,7 +107,23 @@ public class PlayerController : MonoBehaviour
         gravityScale = gravityStrength / Physics2D.gravity.y;
         //animator = GetComponent<Animator>();
         playerAnimatorController = GetComponent<PlayerAnimatorController>();
+        
         //canAttack = true;
+    }
+
+    private void OnEnable()
+    {
+        canInput = true;
+        hudHealth.SetActive(true);
+        hudCoins.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        canInput = false;
+        hudHealth.SetActive(false);
+        hudCoins.SetActive(false);
+        rb.gravityScale = 0;
     }
 
     private void Update(){
@@ -426,6 +447,24 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Interaction Performed");
             interactingGameObject.GetComponent<IInteractables>().HandleInteract();
         }
+    }
+
+    public float GetCoinAmount()
+    {
+        return coinAmount;
+    }
+
+    public void AddCoins(float coins)
+    {
+        coinAmount += coins;
+        coinText.text = coinAmount.ToString();
+        
+    }
+
+    public void SpendCoins(float coins)
+    {
+        coinAmount -= coins;
+        coinText.text = coinAmount.ToString();
     }
 
 

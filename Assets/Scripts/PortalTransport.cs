@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PortalTransport : MonoBehaviour, IInteractables
 {
     [SerializeField] int nextLevelIndex;
-    [SerializeField] GameObject interactionDisplay;
+    [SerializeField] TextMeshProUGUI interactionDisplay;
     //private bool playerInRange;
     [SerializeField] private PlayerController playerController;
 
@@ -18,7 +19,8 @@ public class PortalTransport : MonoBehaviour, IInteractables
     private void OnTriggerEnter2D(Collider2D coll){
         //temp
         if (coll.gameObject.CompareTag("Player")){
-            interactionDisplay.SetActive(true);
+            interactionDisplay.gameObject.SetActive(true);
+            interactionDisplay.text = "Press E to enter";
             playerController.SetPlayerInteract(true);
             playerController.SetInteractingGameObject(gameObject);
             //StartCoroutine(GameManager.instance.NextLevel(nextLevelIndex));
@@ -32,7 +34,9 @@ public class PortalTransport : MonoBehaviour, IInteractables
         {
             return;
         }
-        interactionDisplay.SetActive(false);
+
+        interactionDisplay.text = "";
+        interactionDisplay.gameObject.SetActive(false);
         playerController.SetPlayerInteract(false);
 
     }

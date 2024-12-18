@@ -5,7 +5,7 @@ using UnityEngine;
 public class CheckPoint : MonoBehaviour
 {
     [SerializeField] private bool hit = false;
-    private SpriteRenderer spriteRenderer;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     private void Start(){
         spriteRenderer = GetComponent<SpriteRenderer>();

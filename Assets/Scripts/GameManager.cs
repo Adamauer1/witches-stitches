@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private UpgradeController upgradeController;
     [SerializeField] private Vector3 spawnPointPosition;
+    [SerializeField] private AudioClip[] audioClips;
+    private AudioSource audioSource;
     // private PlayerData playerData;
     [SerializeField] public Dictionary<string, bool> crystalCheck;
 
@@ -27,11 +29,12 @@ public class GameManager : MonoBehaviour
         }
         crystalCheck = new Dictionary<string, bool>()
         {
-            {"Fire", true},
+            {"Fire", false},
             {"Ice", false}
         };
         // SetDefaultPlayerData();
         //SpawnPlayer();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start(){
@@ -49,6 +52,32 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode){
         Debug.Log($"Scene {scene.name} loaded.");
+        if (scene.buildIndex == 1)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.GetComponent<PlayerFlappyController>().enabled = false;
+            player.GetComponent<PlayerController>().enabled = true;
+            
+        }
+        else if (scene.buildIndex == 2)
+        {
+            audioSource.Stop();
+            audioSource.clip = audioClips[0];
+            audioSource.Play();
+        }
+        else if (scene.buildIndex == 3)
+        {
+            audioSource.Stop();
+            audioSource.clip = audioClips[1];
+            audioSource.Play();
+        }
+        else if (scene.buildIndex == 5)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.GetComponent<PlayerController>().enabled = false;
+            player.GetComponent<PlayerFlappyController>().enabled = true;
+            StartCoroutine(player.GetComponent<PlayerFlappyController>().StartFlappyGame());
+        }
         // Call your SpawnPlayer function
         // upgradeController = GameObject.FindGameObjectWithTag("Upgrade").GetComponent<UpgradeController>();
         // Debug.Log(upgradeController);

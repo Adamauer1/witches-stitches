@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: ad6a97071e8af2d438e6259d810c85d2
+  - enabled: 1
+    path: Assets/Scenes/FlappyWorld.unity
+    guid: ad363169579535f4b90dd79b8e433f27
   m_configObjects: {}

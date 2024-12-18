@@ -5,6 +5,7 @@ using UnityEngine;
 public class BossHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] float maxHealth = 10f;
+    [SerializeField] float coinAward;
     private float currentHealth;
     private Animator animator;
     private bool canTakeDamage;
@@ -28,6 +29,8 @@ public class BossHealth : MonoBehaviour, IDamageable
 
     private void Die(){
         GameManager.instance.SpawnCrystal();
+        PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        player.AddCoins(coinAward);
         Destroy(gameObject);
     }
 
