@@ -10,10 +10,11 @@ public class FlappySpawner : MonoBehaviour
     [SerializeField] private float minHeight = -1f;
     [SerializeField] private float maxHeight = 2f;
     [SerializeField] private float verticalGap = 3f;
+    [SerializeField] private float spawnDelay = 5f;
 
     private void OnEnable()
     {
-        InvokeRepeating(nameof(Spawn), spawnRate, spawnRate);
+        InvokeRepeating(nameof(Spawn), spawnDelay, spawnRate);
     }
 
     private void OnDisable()

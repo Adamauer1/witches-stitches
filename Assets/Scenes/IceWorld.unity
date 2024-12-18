@@ -32679,7 +32679,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 561969335124059437, guid: 251b6cd07bfa8ef4da83857fdb1eef10, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1993353014020782949, guid: 251b6cd07bfa8ef4da83857fdb1eef10, type: 3}
       propertyPath: m_Name
@@ -32756,6 +32756,10 @@ PrefabInstance:
     - target: {fileID: 6295447502323083757, guid: 251b6cd07bfa8ef4da83857fdb1eef10, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300287827375522570, guid: 251b6cd07bfa8ef4da83857fdb1eef10, type: 3}
+      propertyPath: crystalName
+      value: Ice
       objectReference: {fileID: 0}
     - target: {fileID: 7300287827375522570, guid: 251b6cd07bfa8ef4da83857fdb1eef10, type: 3}
       propertyPath: nextLevelIndex
@@ -32844,7 +32848,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1165209523
 Transform:
   m_ObjectHideFlags: 0
@@ -33504,7 +33508,7 @@ MonoBehaviour:
   player: {fileID: 1551023201}
   playerHealth: {fileID: 1551023200}
   upgradeController: {fileID: 0}
-  test: 5
+  spawnPointPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &1399984521
 Transform:
   m_ObjectHideFlags: 0

@@ -3,15 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PortalTransport : MonoBehaviour
+public class PortalTransport : MonoBehaviour, IInteractables
 {
     [SerializeField] int nextLevelIndex;
     [SerializeField] GameObject interactionDisplay;
-    private bool playerInRange;
-    private void OnTriggerEnter2D(Collider2D collider){
+    //private bool playerInRange;
+    [SerializeField] private PlayerController playerController;
+
+    private void Awake()
+    {
+        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+    }
+
+    private void OnTriggerEnter2D(Collider2D coll){
         //temp
-        if (collider.gameObject.CompareTag("Player")){
+        if (coll.gameObject.CompareTag("Player")){
             interactionDisplay.SetActive(true);
+            playerController.SetPlayerInteract(true);
+            playerController.SetInteractingGameObject(gameObject);
             //StartCoroutine(GameManager.instance.NextLevel(nextLevelIndex));
             // GameManager.instance.LoadLevel(nextLevelIndex);
         }
@@ -19,11 +28,17 @@ public class PortalTransport : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D coll)
     {
-        if (coll.gameObject.CompareTag("Player"))
+        if (!coll.gameObject.CompareTag("Player"))
         {
-            interactionDisplay.SetActive(false);
+            return;
         }
+        interactionDisplay.SetActive(false);
+        playerController.SetPlayerInteract(false);
+
     }
-    
-    public void On
+
+    public void HandleInteract()
+    {
+        GameManager.instance.LoadLevel(nextLevelIndex);
+    }
 }

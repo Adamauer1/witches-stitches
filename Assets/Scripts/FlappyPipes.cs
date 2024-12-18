@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,5 +24,15 @@ public class FlappyPipes : MonoBehaviour
         // if (transform.position.x < leftCameraEdge){
         //     Destroy(gameObject);
         // }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (!other.gameObject.CompareTag("Player"))
+        {
+            return;
+        }
+        // increase score
+        
     }
 }

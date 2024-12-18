@@ -20930,8 +20930,12 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7300287827375522570, guid: 251b6cd07bfa8ef4da83857fdb1eef10, type: 3}
+      propertyPath: crystalName
+      value: Fire
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300287827375522570, guid: 251b6cd07bfa8ef4da83857fdb1eef10, type: 3}
       propertyPath: nextLevelIndex
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

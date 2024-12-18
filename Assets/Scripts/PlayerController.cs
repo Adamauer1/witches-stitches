@@ -69,6 +69,8 @@ public class PlayerController : MonoBehaviour
 
     private PlayerHealth playerHealth;
     private static PlayerController instance;
+    private bool isInteracting = false;
+    private GameObject interactingGameObject;
     public const string ATTACKONE = "Attack1";
     public const string ATTACKTWO = "Attack2";
     public const string ATTACKTHREE = "Attack3";
@@ -405,6 +407,25 @@ public class PlayerController : MonoBehaviour
 
     public void ApplyDamageUpgrade(){
         attackDamage += 3;
+    }
+
+    public void SetPlayerInteract(bool interact)
+    {
+        isInteracting = interact;
+    }
+
+    public void SetInteractingGameObject(GameObject gameObject)
+    {
+        interactingGameObject = gameObject;
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.performed && isInteracting)
+        {
+            Debug.Log("Interaction Performed");
+            interactingGameObject.GetComponent<IInteractables>().HandleInteract();
+        }
     }
 
 

@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UpgradeController upgradeController;
     [SerializeField] private Vector3 spawnPointPosition;
     // private PlayerData playerData;
+    [SerializeField] public Dictionary<string, bool> crystalCheck;
 
     private void Awake(){
         if (instance == null){
@@ -24,6 +25,11 @@ public class GameManager : MonoBehaviour
         else{
             Destroy(gameObject);
         }
+        crystalCheck = new Dictionary<string, bool>()
+        {
+            {"Fire", true},
+            {"Ice", false}
+        };
         // SetDefaultPlayerData();
         //SpawnPlayer();
     }
@@ -104,6 +110,17 @@ public class GameManager : MonoBehaviour
     public void UpdateSpawnPointLocation(Vector3 newPoint){
         spawnPointPosition = newPoint;
     }
+
+    public void UpdateCrystalCheck(string crystal)
+    {
+        crystalCheck[crystal] = true;
+        LoadLevel(1);
+    }
+
+    // public void DisplayFlappyMenu()
+    // {
+    //     
+    // }
 
     // public void SetDefaultPlayerData(){
     //     playerData.attackCoolDown = 0;
