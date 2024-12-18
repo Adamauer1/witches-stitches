@@ -8,7 +8,7 @@ public class CheckPoint : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
 
     private void Start(){
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        //spriteRenderer = GetComponent<SpriteRenderer>();
     }
     private void OnTriggerEnter2D(Collider2D collider){
         //temp

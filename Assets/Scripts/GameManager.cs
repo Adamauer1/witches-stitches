@@ -61,18 +61,21 @@ public class GameManager : MonoBehaviour
         }
         else if (scene.buildIndex == 2)
         {
+            //spawnPointPosition = new Vector3(-11.87f, -2.42f, 0);
             audioSource.Stop();
             audioSource.clip = audioClips[0];
             audioSource.Play();
         }
         else if (scene.buildIndex == 3)
         {
+            //spawnPointPosition = new Vector3(-7.85f, -0.87f, 0);
             audioSource.Stop();
             audioSource.clip = audioClips[1];
             audioSource.Play();
         }
         else if (scene.buildIndex == 5)
         {
+            spawnPointPosition = new Vector3(-13.81f, -2.14f, 0);
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             player.GetComponent<PlayerController>().enabled = false;
             player.GetComponent<PlayerFlappyController>().enabled = true;
@@ -122,12 +125,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void LoadLevel(int levelIndex){
+    public void LoadLevel(int levelIndex, Vector3 spawnPoint){
+        UpdateSpawnPointLocation(spawnPoint);
         SceneManager.LoadScene(levelIndex);
         // SpawnPlayer();
     }
-
-    
 
 
     private void SpawnPlayer(){
@@ -143,8 +145,20 @@ public class GameManager : MonoBehaviour
     public void UpdateCrystalCheck(string crystal)
     {
         crystalCheck[crystal] = true;
-        LoadLevel(1);
+        LoadLevel(1, new Vector3(-34.26f, -2.84f, 0));
+        CheckGameOver();
+
+        //if all are done end game
     }
+
+    private void CheckGameOver(){
+        foreach (KeyValuePair<string, bool> pair in crystalCheck){
+            if (!pair.Value){
+                return;
+            }
+        }
+        LoadLevel(4,new Vector3(0,0,0));
+    } 
 
     // public void DisplayFlappyMenu()
     // {

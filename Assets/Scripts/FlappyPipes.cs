@@ -33,6 +33,7 @@ public class FlappyPipes : MonoBehaviour
             return;
         }
         // increase score
-        
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<PlayerFlappyController>().IncreaseScoreCount();
     }
 }

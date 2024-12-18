@@ -10,6 +10,7 @@ public class PortalTransport : MonoBehaviour, IInteractables
     [SerializeField] TextMeshProUGUI interactionDisplay;
     //private bool playerInRange;
     [SerializeField] private PlayerController playerController;
+    [SerializeField] private Vector3 spawnPointPosition;
 
     private void Awake()
     {
@@ -43,6 +44,6 @@ public class PortalTransport : MonoBehaviour, IInteractables
 
     public void HandleInteract()
     {
-        GameManager.instance.LoadLevel(nextLevelIndex);
+        GameManager.instance.LoadLevel(nextLevelIndex, spawnPointPosition);
     }
 }

@@ -133,10 +133,10 @@ public class PlayerController : MonoBehaviour
                 triggerAttack = false;
                 if (canAttack){
                     attackTimer = 0;
-                    // Attack();
+                    Attack();
                     canAttack = false;
                     playerAnimatorController.ChangeAnimationState(ATTACKONE);
-                    Invoke("ResetAttack", playerAnimatorController.GetCurrentAnimationDuration());
+                    Invoke("ResetAttack", 0.3f);
                 
                 }
                 // Debug.Log("Attack Triggered");
@@ -315,8 +315,9 @@ public class PlayerController : MonoBehaviour
         // attackTransform.GetComponent<SpriteRenderer>().enabled = true;
         // targetsHit = Physics2D.CircleCastAll(attackTransform.position, attackRange, transform.right, 0f, enemyLayer);
         //targetsHit = Physics2D.BoxCastAll(attackTransform.position, new Vector2(1.8f, 2), transform.right, 0f, enemyLayer);
+        
         targetsHit = Physics2D.OverlapBoxAll(attackTransform.position, new Vector2(1.5f, 2), 0, enemyLayer);
-        // Debug.Log("Test");
+        Debug.Log("Test");
         for (int i = 0; i < targetsHit.Length; i++){
             // Debug.Log(targetsHit[i].collider.gameObject);
             //IDamageable damageable = targetsHit[i].collider.gameObject.GetComponent<IDamageable>();

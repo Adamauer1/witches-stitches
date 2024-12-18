@@ -16,6 +16,8 @@ public class PlayerFlappyController : MonoBehaviour
     [SerializeField] private GameObject flappyMenu;
     [SerializeField] private TextMeshProUGUI countdownText;
     [SerializeField] private GameObject flappyHUD;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    private float score = 0;
     public float tilt = 5f;
     private Vector3 direction;
 
@@ -84,6 +86,13 @@ public class PlayerFlappyController : MonoBehaviour
         }
     }
 
+    public void IncreaseScoreCount(){
+        if (!freezePlayer){
+            score += 1;
+            scoreText.text = score.ToString();
+        }
+    }
+
     public IEnumerator StartFlappyGame()
     {
         int currentCount = 3;
@@ -98,6 +107,8 @@ public class PlayerFlappyController : MonoBehaviour
         countdownText.text = "GO";
         yield return new WaitForSeconds(0.5f);
         countdownText.gameObject.SetActive(false);
+        score = 0;
+        scoreText.text = "0";
         freezePlayer = false;
     }
 
@@ -116,7 +127,7 @@ public class PlayerFlappyController : MonoBehaviour
 
     public void ReturnToHome()
     {
-        GameManager.instance.LoadLevel(1);
+        GameManager.instance.LoadLevel(1, new Vector3(-34.26f, -2.84f, 0));
         
     }
 }
