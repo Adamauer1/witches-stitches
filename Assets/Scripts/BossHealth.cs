@@ -11,7 +11,7 @@ public class BossHealth : MonoBehaviour, IDamageable
     private bool canTakeDamage;
     private void Awake(){
         currentHealth = maxHealth;
-         animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>()
          canTakeDamage = true;
     }
     public void Damage(float damage){
