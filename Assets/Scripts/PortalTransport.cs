@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class PortalTransport : MonoBehaviour, IInteractables
 {
     [SerializeField] int nextLevelIndex;
     [SerializeField] TextMeshProUGUI interactionDisplay;
+    [SerializeField] private Image backgroundImage;
     //private bool playerInRange;
     [SerializeField] private PlayerController playerController;
     [SerializeField] private Vector3 spawnPointPosition;
@@ -15,12 +17,15 @@ public class PortalTransport : MonoBehaviour, IInteractables
     private void Awake()
     {
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        // interactionDisplay.gameObject.SetActive(false);
+        backgroundImage.enabled = false;
     }
 
     private void OnTriggerEnter2D(Collider2D coll){
         //temp
         if (coll.gameObject.CompareTag("Player")){
             interactionDisplay.gameObject.SetActive(true);
+            backgroundImage.enabled = true;
             interactionDisplay.text = "Press E to enter";
             playerController.SetPlayerInteract(true);
             playerController.SetInteractingGameObject(gameObject);
@@ -38,6 +43,7 @@ public class PortalTransport : MonoBehaviour, IInteractables
 
         interactionDisplay.text = "";
         interactionDisplay.gameObject.SetActive(false);
+        backgroundImage.enabled = false;
         playerController.SetPlayerInteract(false);
 
     }

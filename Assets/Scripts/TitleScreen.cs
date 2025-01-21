@@ -11,6 +11,7 @@ public class TitleScreen : MonoBehaviour
     [SerializeField] private GameObject storyScreen2;
     [SerializeField] private GameObject storyScreen3;
     [SerializeField] private GameObject storyScreen4;
+    [SerializeField] private GameObject storyScreen5;
 
     private void Awake()
     {
@@ -18,13 +19,13 @@ public class TitleScreen : MonoBehaviour
         storyScreen2.SetActive(false);
         storyScreen3.SetActive(false);
         storyScreen4.SetActive(false);
+        storyScreen5.SetActive(false);
     }
 
     public void HandlePlayButton () {
         // continue to story opener
         mainMenu.SetActive(false);
         storyScreen1.SetActive(true);
-
     }
 
     public void HandleNext()
@@ -43,6 +44,12 @@ public class TitleScreen : MonoBehaviour
     {
         storyScreen3.SetActive(false);
         storyScreen4.SetActive(true);
+    }
+    
+    public void HandleNext4()
+    {
+        storyScreen4.SetActive(false);
+        storyScreen5.SetActive(true);
     }
 
     public void HandleExitButton (){

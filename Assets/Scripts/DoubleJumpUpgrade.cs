@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class DoubleJumpUpgrade : MonoBehaviour, IPlayerUpgrade, IInteractables
 {
     public string upgradeLabel = "buy Double Jump";
     private float cost = 5;
-    [SerializeField] TextMeshProUGUI interactionDisplay;
+    [SerializeField] private TextMeshProUGUI interactionDisplay;
+    [SerializeField] private Image backgroundImage;
     //private bool playerInRange;
     [SerializeField] private PlayerController playerController;
 
@@ -15,6 +17,7 @@ public class DoubleJumpUpgrade : MonoBehaviour, IPlayerUpgrade, IInteractables
     {
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         interactionDisplay.gameObject.SetActive(false);
+        backgroundImage.enabled = false;
     }
 
     public float GetUpgradeCost()
@@ -34,6 +37,7 @@ public class DoubleJumpUpgrade : MonoBehaviour, IPlayerUpgrade, IInteractables
         //temp
         if (coll.gameObject.CompareTag("Player") && !playerController.doubleJumpActive){
             interactionDisplay.gameObject.SetActive(true);
+            backgroundImage.enabled = true;
             interactionDisplay.text = "Press E to buy Double Jump";
             playerController.SetPlayerInteract(true);
             playerController.SetInteractingGameObject(gameObject);
@@ -51,6 +55,7 @@ public class DoubleJumpUpgrade : MonoBehaviour, IPlayerUpgrade, IInteractables
 
         interactionDisplay.text = "";
         interactionDisplay.gameObject.SetActive(false);
+        backgroundImage.enabled = false;
         playerController.SetPlayerInteract(false);
 
     }

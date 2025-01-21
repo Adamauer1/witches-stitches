@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class DamageUpgrade : MonoBehaviour, IPlayerUpgrade, IInteractables
 {
     public string upgradeLabel = "buy Damage Upgrade";
     private float cost = 5;
     [SerializeField] TextMeshProUGUI interactionDisplay;
+    [SerializeField] private Image backgroundImage;
     //private bool playerInRange;
     [SerializeField] private PlayerController playerController;
 
@@ -15,6 +17,7 @@ public class DamageUpgrade : MonoBehaviour, IPlayerUpgrade, IInteractables
     {
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         interactionDisplay.gameObject.SetActive(false);
+        backgroundImage.enabled = false;
     }
 
     public float GetUpgradeCost()
@@ -31,6 +34,7 @@ public class DamageUpgrade : MonoBehaviour, IPlayerUpgrade, IInteractables
         //temp
         if (coll.gameObject.CompareTag("Player")){
             interactionDisplay.gameObject.SetActive(true);
+            backgroundImage.enabled = true;
             interactionDisplay.text = "Press E to buy Damage Upgrade";
             playerController.SetPlayerInteract(true);
             playerController.SetInteractingGameObject(gameObject);
@@ -48,6 +52,7 @@ public class DamageUpgrade : MonoBehaviour, IPlayerUpgrade, IInteractables
 
         interactionDisplay.text = "";
         interactionDisplay.gameObject.SetActive(false);
+        backgroundImage.enabled = false;
         playerController.SetPlayerInteract(false);
 
     }

@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] public float maxHealth = 5f;
     [SerializeField] private TextMeshProUGUI healthText;
+    [SerializeField] private Slider healthSlider;
+    [SerializeField] private Image healthFill;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private float iFrames = 0.3f;
     [SerializeField] private PlayerAnimatorController playerAnimatorController;
@@ -34,16 +37,19 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public void Damage(float damage){
         if (canTakeDamage){
             currentHealth -= damage;
+            // healthSlider.value = currentHealth / maxHealth;
             if (currentHealth <= 0){
                 currentHealth = 0;
-                healthText.text = currentHealth.ToString();
+                //healthText.text = currentHealth.ToString();
+                healthFill.enabled = false;
                 Debug.Log("DEAD");
                 // StartCoroutine(Die());
                 Die();
 
             }
             else{
-                healthText.text = currentHealth.ToString();
+                //healthText.text = currentHealth.ToString();
+                healthSlider.value = currentHealth / maxHealth;
                 //StartCoroutine(RunIFrame());
             }
         }
@@ -71,11 +77,15 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     }
 
     public void SetHealth(float health){
+        // currentHealth = health;
+        // healthText.text = currentHealth.ToString();
         currentHealth = health;
-        healthText.text = currentHealth.ToString();
+        healthSlider.value = currentHealth / maxHealth;
+        Debug.Log(currentHealth);
     }
 
     public void SetMaxHealth(){
+        healthFill.enabled = true;
         SetHealth(maxHealth);
     }
 
