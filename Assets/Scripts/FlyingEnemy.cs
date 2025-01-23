@@ -7,6 +7,7 @@ using UnityEngine.Animations;
 public class FlyingEnemy : MonoBehaviour, IEnemy
 {
     private Transform player;
+    private EnemyHealth enemyHealth;
     [SerializeField] private float shootingRange = 5f;
     [SerializeField] private float chaseRange = 15f;
     [SerializeField] private float moveSpeed = 2f;
@@ -14,17 +15,29 @@ public class FlyingEnemy : MonoBehaviour, IEnemy
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private LayerMask contactLayer;
+    [SerializeField] private AudioClip fireSound;
+    private AudioSource audioSource;
     private float nextFireTime = 0f;
+    private float attackResetTime;
+    private AnimationClip clip;
 
     public AIPath aIPath;
 
     public AIDestinationSetter aIDestinationSetter;
     private Animator animator;
-    private bool canAttack;
+    public bool canAttack;
+
+
+    private bool isIdle = false;
+    private bool isAttacking = false;
+    private bool isFlying = false;
+    private bool isDying = false;
 
     private void Awake(){
         aIPath = GetComponent<AIPath>();
         aIDestinationSetter = GetComponent<AIDestinationSetter>();
+        audioSource = GetComponent<AudioSource>();
+        enemyHealth = GetComponent<EnemyHealth>();
     }
     private void Start(){
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -32,6 +45,14 @@ public class FlyingEnemy : MonoBehaviour, IEnemy
         aIDestinationSetter.target = player;
         animator = GetComponent<Animator>();
         canAttack = true;
+        for (int i = 0; i < animator.runtimeAnimatorController.animationClips.Length; i++)
+        {
+            if (animator.runtimeAnimatorController.animationClips[i].name == "Attack")
+            {
+                attackResetTime = animator.runtimeAnimatorController.animationClips[i].length;
+            }
+        }
+        Debug.Log(attackResetTime);
     }
     void Update()
     {
@@ -63,6 +84,7 @@ public class FlyingEnemy : MonoBehaviour, IEnemy
             if (canAttack){
                 canAttack = false;
                 animator.SetTrigger("Attack");
+                // Invoke("ResetAttack", attackResetTime);
             }
         }
     }
@@ -85,11 +107,16 @@ public class FlyingEnemy : MonoBehaviour, IEnemy
     // }
 
     private void Shoot(){
+        if (enemyHealth.isDead)
+        {
+            enemyHealth.Die();
+        }
         // if (Time.time > nextFireTime){
             // nextFireTime = Time.time + fireRate;
             GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
             Vector2 direction = (player.position - firePoint.position).normalized;
             projectile.GetComponent<Rigidbody2D>().velocity =  moveSpeed * 3 * direction;
+            audioSource.PlayOneShot(fireSound);
             StartCoroutine(ResetAttack());
         // }
     }

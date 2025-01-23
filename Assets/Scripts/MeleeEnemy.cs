@@ -16,16 +16,19 @@ public class MeleeEnemy : MonoBehaviour, IEnemy
     [SerializeField] private Transform attackTransform;
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private float attackDamage;
+    [SerializeField] private AudioClip attackSound;
+    private AudioSource audioSource;
     private float nextAttackTime = 0f;
     private Animator animator;
     private Collider2D[] targetsHit;
-    private bool canAttack;
+    public bool canAttack;
 
     // public AIPath aIPath;
     private void Start(){
         player = GameObject.FindGameObjectWithTag("Player").transform;
         animator = GetComponent<Animator>();
         canAttack = true;
+        audioSource = GetComponent<AudioSource>();
     }
     void Update()
     {
@@ -87,6 +90,8 @@ public class MeleeEnemy : MonoBehaviour, IEnemy
             if (canAttack){
                 canAttack = false;
                 animator.SetTrigger("Attack");
+                audioSource.PlayOneShot(attackSound);
+                //Invoke("ResetAttack", 1f);
             }
         }
     }

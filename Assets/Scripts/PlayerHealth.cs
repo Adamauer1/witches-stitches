@@ -13,6 +13,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private float iFrames = 0.3f;
     [SerializeField] private PlayerAnimatorController playerAnimatorController;
+    [SerializeField] private AudioClip deathSound;
+    private AudioSource audioSource;
     public const string DEATH = "Death";
     private Animator animator;
     private bool canTakeDamage = true;
@@ -24,6 +26,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         playerController = GetComponent<PlayerController>();
         animator = GetComponent<Animator>();
         playerAnimatorController = GetComponent<PlayerAnimatorController>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start(){
@@ -65,6 +68,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         playerController.SetCanInput(false);
         // zero out movement
         // animator.SetTrigger("death");
+        audioSource.PlayOneShot(deathSound);
         playerAnimatorController.ChangeAnimationState(DEATH);
         // yield return new WaitForSeconds(0.5f);
         // while (!deathOver){
@@ -81,7 +85,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         // healthText.text = currentHealth.ToString();
         currentHealth = health;
         healthSlider.value = currentHealth / maxHealth;
-        Debug.Log(currentHealth);
+        //Debug.Log(currentHealth);
     }
 
     public void SetMaxHealth(){
@@ -109,5 +113,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void UpdateHealthText(){
         healthText.text = currentHealth.ToString();
+        healthSlider.value = currentHealth / maxHealth;
     }
 }

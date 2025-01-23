@@ -9,17 +9,21 @@ public class BossHealth : MonoBehaviour, IDamageable
     private float currentHealth;
     private Animator animator;
     private bool canTakeDamage;
+    private bool isDead = false;
     private void Awake(){
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
          canTakeDamage = true;
     }
     public void Damage(float damage){
-        Debug.Log(currentHealth);
+        //Debug.Log(currentHealth);
+        if (isDead) return;
         currentHealth -= damage;
-        canTakeDamage = false;
-        if (currentHealth <= 0){
+        //canTakeDamage = false;
+        if (currentHealth <= 0 && !isDead){
+            isDead = true;
             animator.SetTrigger("Death");
+            Invoke("Die", 1.2f);
         }
         else {
             animator.SetTrigger("Hurt");
@@ -31,6 +35,7 @@ public class BossHealth : MonoBehaviour, IDamageable
         GameManager.instance.SpawnCrystal();
         PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         player.AddCoins(coinAward);
+        GameManager.instance.PlayWorldMusic();
         Destroy(gameObject);
     }
 

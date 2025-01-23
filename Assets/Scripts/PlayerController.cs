@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 9.5f;
     [SerializeField] private float iceFriction = 0.4f;
+    [SerializeField] private float stepDelay = 0.2f;
+    private float stepTimer = 0f;
     private Vector2 movementInput;
 
     [Header("Ground Check")]
@@ -58,9 +60,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private Transform attackTransform;
     [SerializeField] private float attackRange = 1.5f;
+    
+    [Header("Sounds")]
+    [SerializeField] private AudioClip walkSound;
+    [SerializeField] private AudioClip attackSound;
     // private RaycastHit2D[] targetsHit;
     private Collider2D[] targetsHit;
     private bool triggerAttack = false;
+
+    private int attackIndex = 0;
     //private Animator animator;
 
     PlayerAnimatorController playerAnimatorController;
@@ -76,9 +84,11 @@ public class PlayerController : MonoBehaviour
     private static PlayerController instance;
     private bool isInteracting = false;
     private GameObject interactingGameObject;
+    private AudioSource audioSource;
     public const string ATTACKONE = "Attack1";
     public const string ATTACKTWO = "Attack2";
     public const string ATTACKTHREE = "Attack3";
+    private string[] ATTACKS = new string[3];
     public const string IDLE = "Idle";
     public const string WALK = "Walking";
     public const string JUMPSTART = "JumpStart";
@@ -107,7 +117,11 @@ public class PlayerController : MonoBehaviour
         gravityScale = gravityStrength / Physics2D.gravity.y;
         //animator = GetComponent<Animator>();
         playerAnimatorController = GetComponent<PlayerAnimatorController>();
-        
+        audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0.5f;
+        ATTACKS[0] = ATTACKONE;
+        ATTACKS[1] = ATTACKTWO;
+        ATTACKS[2] = ATTACKTHREE;
         //canAttack = true;
     }
 
@@ -132,11 +146,21 @@ public class PlayerController : MonoBehaviour
             if (triggerAttack){
                 triggerAttack = false;
                 if (canAttack){
+                    // attackTimer = 0;
+                    if (attackTimer < 1)
+                    {
+                        attackIndex = (attackIndex + 1) % ATTACKS.Length;
+                    }
+                    else
+                    {
+                        attackIndex = 0;
+                    }
+
                     attackTimer = 0;
                     Attack();
                     canAttack = false;
-                    playerAnimatorController.ChangeAnimationState(ATTACKONE);
-                    Invoke("ResetAttack", 0.3f);
+                    playerAnimatorController.ChangeAnimationState(ATTACKS[attackIndex]);
+                    Invoke("ResetAttack", 0.5f);
                 
                 }
                 // Debug.Log("Attack Triggered");
@@ -150,7 +174,7 @@ public class PlayerController : MonoBehaviour
                 // animator.SetBool("isJumping", false);
             }
 
-            //attackTimer += Time.deltaTime;
+            attackTimer += Time.deltaTime;
 
             // counts up when in the falling state
             if (!isJumping && !isJumpFalling && !isGrounded){
@@ -248,10 +272,18 @@ public class PlayerController : MonoBehaviour
             if (movementInput.x == 0){
             //animator.SetBool("isWalking", false);
                 playerAnimatorController.ChangeAnimationState(IDLE);
+                stepTimer = 0;
             }
             else {
             //animator.SetBool("isWalking", true);
                 playerAnimatorController.ChangeAnimationState(WALK);
+                stepTimer -= Time.deltaTime;
+                if (stepTimer <= 0)
+                {
+                    
+                    audioSource.PlayOneShot(walkSound);
+                    stepTimer = stepDelay;
+                }
                 //canAttack = true;
             }
         }
@@ -317,7 +349,8 @@ public class PlayerController : MonoBehaviour
         //targetsHit = Physics2D.BoxCastAll(attackTransform.position, new Vector2(1.8f, 2), transform.right, 0f, enemyLayer);
         
         targetsHit = Physics2D.OverlapBoxAll(attackTransform.position, new Vector2(1.5f, 2), 0, enemyLayer);
-        Debug.Log("Test");
+        //Debug.Log("Test");
+        audioSource.PlayOneShot(attackSound);
         for (int i = 0; i < targetsHit.Length; i++){
             // Debug.Log(targetsHit[i].collider.gameObject);
             //IDamageable damageable = targetsHit[i].collider.gameObject.GetComponent<IDamageable>();
@@ -331,6 +364,7 @@ public class PlayerController : MonoBehaviour
     private void ResetAttack(){
         //yield return new WaitForSeconds(attackCoolDown);
         canAttack = true;
+        // start cooldown
     }
 
     // private void UpdateAnimation(){

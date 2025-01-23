@@ -12,5 +12,6 @@ public class TriggerBoss : MonoBehaviour
             GetComponentInParent<SpriteRenderer>().enabled = true;
             boxCollider2D.enabled = true;
         }
+        GameManager.instance.PlayBossMusic();
     }
 }

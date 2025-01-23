@@ -13,6 +13,7 @@ public class PortalTransport : MonoBehaviour, IInteractables
     //private bool playerInRange;
     [SerializeField] private PlayerController playerController;
     [SerializeField] private Vector3 spawnPointPosition;
+    [SerializeField] private String text;
 
     private void Awake()
     {
@@ -26,7 +27,7 @@ public class PortalTransport : MonoBehaviour, IInteractables
         if (coll.gameObject.CompareTag("Player")){
             interactionDisplay.gameObject.SetActive(true);
             backgroundImage.enabled = true;
-            interactionDisplay.text = "Press E to enter";
+            interactionDisplay.text = text;
             playerController.SetPlayerInteract(true);
             playerController.SetInteractingGameObject(gameObject);
             //StartCoroutine(GameManager.instance.NextLevel(nextLevelIndex));

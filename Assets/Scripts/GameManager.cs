@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UpgradeController upgradeController;
     [SerializeField] private Vector3 spawnPointPosition;
     [SerializeField] private AudioClip[] audioClips;
+    private int currentWorldMusic = 0;
     private AudioSource audioSource;
     // private PlayerData playerData;
     [SerializeField] public Dictionary<string, bool> crystalCheck;
@@ -30,11 +31,13 @@ public class GameManager : MonoBehaviour
         crystalCheck = new Dictionary<string, bool>()
         {
             {"Fire", false},
-            {"Ice", false}
+            {"Ice", false},
+            {"Forest", false},
         };
         // SetDefaultPlayerData();
         //SpawnPlayer();
         audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0.3f;
     }
 
     private void Start(){
@@ -52,6 +55,7 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode){
         Debug.Log($"Scene {scene.name} loaded.");
+        audioSource.Stop();
         if (scene.buildIndex == 1)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -62,18 +66,27 @@ public class GameManager : MonoBehaviour
         else if (scene.buildIndex == 2)
         {
             //spawnPointPosition = new Vector3(-11.87f, -2.42f, 0);
-            audioSource.Stop();
+            //audioSource.Stop();
             audioSource.clip = audioClips[0];
+            currentWorldMusic = 0;
             audioSource.Play();
         }
         else if (scene.buildIndex == 3)
         {
             //spawnPointPosition = new Vector3(-7.85f, -0.87f, 0);
-            audioSource.Stop();
+            //audioSource.Stop();
             audioSource.clip = audioClips[1];
+            currentWorldMusic = 1;
             audioSource.Play();
         }
-        else if (scene.buildIndex == 5)
+        else if (scene.buildIndex == 4)
+        {
+            //audioSource.Stop();
+            audioSource.clip = audioClips[2];
+            currentWorldMusic = 2;
+            audioSource.Play();
+        }
+        else if (scene.buildIndex == 6)
         {
             spawnPointPosition = new Vector3(-13.81f, -2.14f, 0);
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -84,7 +97,7 @@ public class GameManager : MonoBehaviour
         // Call your SpawnPlayer function
         // upgradeController = GameObject.FindGameObjectWithTag("Upgrade").GetComponent<UpgradeController>();
         // Debug.Log(upgradeController);
-        if (SceneManager.GetActiveScene().buildIndex != 4){
+        if (SceneManager.GetActiveScene().buildIndex != 5){
             SpawnPlayer();
         }
     }
@@ -104,6 +117,20 @@ public class GameManager : MonoBehaviour
         GameObject crystal = GameObject.FindWithTag("Crystal");
         crystal.GetComponent<BoxCollider2D>().enabled = true;
         crystal.GetComponent<SpriteRenderer>().enabled = true;
+    }
+
+    public void PlayBossMusic()
+    {
+        audioSource.Stop();
+        audioSource.clip = audioClips[3];
+        audioSource.Play();
+    }
+
+    public void PlayWorldMusic()
+    {
+        audioSource.Stop();
+        audioSource.clip = audioClips[currentWorldMusic];
+        audioSource.Play();
     }
 
     public IEnumerator NextLevel(int levelIndex){
@@ -126,6 +153,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void LoadLevel(int levelIndex, Vector3 spawnPoint){
+        Debug.Log(spawnPoint);
         UpdateSpawnPointLocation(spawnPoint);
         SceneManager.LoadScene(levelIndex);
         // SpawnPlayer();
@@ -157,7 +185,7 @@ public class GameManager : MonoBehaviour
                 return;
             }
         }
-        LoadLevel(4,new Vector3(0,0,0));
+        LoadLevel(5,new Vector3(0,0,0));
     } 
 
     // public void DisplayFlappyMenu()
